@@ -1,0 +1,17 @@
+{
+    "name": "unstable-cacao/web-core",
+    "authors": [
+        {
+            "name": "Alexey Puchkov",
+            "email": "alexey.pkv@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload":
+    {
+        "psr-0": 
+        {
+            "WebCore": "src"
+        }
+    }
+}
