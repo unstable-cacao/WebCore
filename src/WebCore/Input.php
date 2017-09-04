@@ -2,21 +2,24 @@
 namespace WebCore;
 
 
+use WebCore\Inputs\FromArray;
+
+
 class Input
 {
 	public static function get(): IInput
 	{
-		// TODO
+		return new FromArray($_GET);
 	}
 	
 	public static function post(): IInput
 	{
-		// TODO
+		return new FromArray($_POST);
 	}
 	
 	public static function cookies(): IInput
 	{
-		// TODO
+		return new FromArray($_COOKIE);
 	}
 	
 	public static function headers(): IInput
