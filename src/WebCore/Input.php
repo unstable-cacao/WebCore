@@ -29,7 +29,7 @@ class Input
 	
 	public static function session(): IInput
 	{
-		// TODO
+		return new FromArray($_SESSION);
 	}
 	
 	public static function params(): IInput
@@ -39,6 +39,37 @@ class Input
 	
 	public static function method(): string
 	{
-		
+		$method = $_SERVER['REQUEST_METHOD'] ?? '';
+		return Method::isExists($method) ? $method : Method::UNKNOWN;
+	}
+	
+	public static function isGet(string $method): bool 
+	{
+		return $method == Method::GET;
+	}
+	
+	public static function isHead(string $method): bool 
+	{
+		return $method == Method::HEAD;
+	}
+	
+	public static function isPost(string $method): bool 
+	{
+		return $method == Method::POST;
+	}
+	
+	public static function isPut(string $method): bool 
+	{
+		return $method == Method::PUT;
+	}
+	
+	public static function isDelete(string $method): bool 
+	{
+		return $method == Method::DELETE;
+	}
+	
+	public static function isOptions(string $method): bool 
+	{
+		return $method == Method::OPTIONS;
 	}
 }
