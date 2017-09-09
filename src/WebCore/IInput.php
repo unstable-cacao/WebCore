@@ -2,13 +2,6 @@
 namespace WebCore;
 
 
-/**
- * Bool:
- * 	false:
- * 		<empty value>, 0, false, f, off
- *  true:
- * 		Everything else
- */
 interface IInput
 {
 	public function has(string $name): bool;
@@ -21,16 +14,7 @@ interface IInput
 	public function float(string $name, ?float $default = null): ?float;
 	public function regex(string $name, string $regex, ?string $default = null): ?string;
 	public function string(string $name, ?string $default = null): ?string;
-	
 	public function enum(string $name, $enumValues, ?string $default = null): ?string;
-
-	/**
-	 * @param string $name
-	 * @param array $values
-	 * @param mixed|null $default
-	 * @return mixed|null
-	 */
-	public function oneOf(string $name, array $values, $default = null);
 	
 	public function array(string $name, string $glue = ',', array $default = []): array;
 	public function arrayInt(string $name, string $glue = ',', array $default = []): array;
@@ -43,6 +27,7 @@ interface IInput
 	public function requireBool(string $name): bool;
 	public function requireFloat(string $name): float;
 	public function requireRegex(string $name, string $regex): string;
+	public function requireEnum(string $name, $enumValues): ?string;
 	
 	public function requireArray(string $name, string $glue = ','): array;
 	public function requireArrayInt(string $name, string $glue = ','): array;

@@ -2,39 +2,15 @@
 namespace WebCore\Inputs;
 
 
+use Objection\TEnum;
+use WebCore\Exception\WebCoreFatalException;
 use WebCore\IInput;
+use WebCore\Inputs\Utils\BooleanConverter;
 
 
 class FromArray implements IInput
 {
 	private $source;
-	
-	
-	private function convertToInt($value): int
-	{
-		return (int)$value;
-	}
-	
-	private function convertToFloat($value): float 
-	{
-		return (float)$value;
-	}
-	
-	private function convertToBool($value): bool 
-	{
-		if (is_numeric($value))
-		{
-			return (bool)((int)$value);
-		}
-		else if (is_string($value))
-		{
-			return strtolower($value) == 'true';
-		}
-		else
-		{
-			return (bool)$value;
-		}
-	}
 	
 	
 	public function __construct(array $source)
@@ -55,7 +31,7 @@ class FromArray implements IInput
 		
 		$value = $this->source[$name];
 		
-		return $value == (string)$this->convertToInt($value);
+		return $value == (string)((int)$value);
 	}
 	
 	public function isFloat(string $name): bool
@@ -65,65 +41,82 @@ class FromArray implements IInput
 		
 		$value = $this->source[$name];
 		
-		return $value == (string)$this->convertToFloat($value);
+		return $value == (string)((float)$value);
 	}
 	
 	public function isEmpty(string $name): bool
 	{
-		return $this->has($name) && !$this->source[$name];
+		if (!$this->has($name))
+			return false;
+		
+		return $this->source[$name] == '';
 	}
 	
 	
 	public function int(string $name, ?int $default = null): ?int
 	{
-		if ($this->has($name))
-			return $this->convertToInt($this->source[$name]);
-		else
-			return $default;
+		return $this->has($name) ? (int)$this->source[$name] : $default;
 	}
 	
 	public function bool(string $name, ?bool $default = null): ?bool 
 	{
-		if (!$this->has($name))
-			return $default;
-		else 
-			return $this->convertToBool($this->source[$name]);
+		return $this->has($name) ? BooleanConverter::get($this->source[$name]) : $default;
 	}
 	
 	public function float(string $name, ?float $default = null): ?float 
 	{
-		if ($this->has($name))
-			return $this->convertToFloat($this->source[$name]);
-		else
-			return $default;
+		return $this->has($name) ? (float)$this->source[$name] : $default;
 	}
 	
 	public function regex(string $name, string $regex, ?string $default = null): ?string
 	{
-		// TODO: Implement regex() method.
+		if (!$this->has($name))
+			return $default;
+		
+		$isMatched = preg_match($regex, $this->source[$name]);
+		
+		if ($isMatched === 0)
+		{
+			return $default;
+		}
+		else if ($isMatched === 1)
+		{
+			return $this->source[$name];
+		}
+		else
+		{
+			throw new WebCoreFatalException("Invalid regex");
+		}
 	}
 	
 	public function string(string $name, ?string $default = null): ?string
 	{
-		// TODO: Implement string() method.
+		return $this->has($name) ? $this->source[$name] : $default;
 	}
-	
 	
 	public function enum(string $name, $enumValues, ?string $default = null): ?string
 	{
-		// TODO: Implement enum() method.
-	}
-	
-	
-	/**
-	 * @param string $name
-	 * @param array $values
-	 * @param mixed|null $default
-	 * @return mixed|null
-	 */
-	public function oneOf(string $name, array $values, $default = null)
-	{
-		// TODO: Implement oneOf() method.
+		if (!$this->has($name))
+			return $default;
+		
+		if (is_array($enumValues))
+		{
+			return in_array($this->source[$name], $enumValues) ? $this->source[$name] : $default;
+		}
+		else
+		{
+			if (!is_string($enumValues) || 
+				!class_exists($enumValues) || 
+				!key_exists(TEnum::class, class_uses($enumValues)))
+			{
+				throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
+			}
+			else
+			{
+				/** @var TEnum $enumValues */
+				return $enumValues::isExists($this->source[$name]) ? $this->source[$name] : $default;
+			}
+		}
 	}
 	
 	
@@ -146,7 +139,7 @@ class FromArray implements IInput
 			
 			foreach ($values as $value) 
 			{
-				$result[] = $this->convertToInt($value);
+				$result[] = (int)$value;
 			}
 			
 			return $result;
@@ -164,7 +157,7 @@ class FromArray implements IInput
 			
 			foreach ($values as $value)
 			{
-				$result[] = $this->convertToBool($value);
+				$result[] = BooleanConverter::get($value);
 			}
 			
 			return $result;
@@ -182,7 +175,7 @@ class FromArray implements IInput
 			
 			foreach ($values as $value)
 			{
-				$result[] = $this->convertToFloat($value);
+				$result[] = (float)$value;
 			}
 			
 			return $result;
@@ -195,7 +188,7 @@ class FromArray implements IInput
 	}
 	
 	
-	public function require (string $name): string
+	public function require(string $name): string
 	{
 		// TODO: Implement require() method.
 	}
@@ -218,6 +211,11 @@ class FromArray implements IInput
 	public function requireRegex(string $name, string $regex): string
 	{
 		// TODO: Implement requireRegex() method.
+	}
+	
+	public function requireEnum(string $name, $enumValues): ?string
+	{
+		// TODO: Implement requireEnum() method.
 	}
 	
 	
