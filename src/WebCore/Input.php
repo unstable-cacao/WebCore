@@ -40,36 +40,42 @@ class Input
 	public static function method(): string
 	{
 		$method = $_SERVER['REQUEST_METHOD'] ?? '';
+		$method = strtoupper($method);
 		return Method::isExists($method) ? $method : Method::UNKNOWN;
 	}
 	
-	public static function isGet(string $method): bool 
+	public static function is(string $method): bool 
 	{
-		return $method == Method::GET;
+		return self::method() == $method;
 	}
 	
-	public static function isHead(string $method): bool 
+	public static function isGet(): bool 
 	{
-		return $method == Method::HEAD;
+		return self::is(Method::GET);
 	}
 	
-	public static function isPost(string $method): bool 
+	public static function isHead(): bool 
 	{
-		return $method == Method::POST;
+		return self::is(Method::HEAD);
 	}
 	
-	public static function isPut(string $method): bool 
+	public static function isPost(): bool 
 	{
-		return $method == Method::PUT;
+		return self::is(Method::POST);
 	}
 	
-	public static function isDelete(string $method): bool 
+	public static function isPut(): bool 
 	{
-		return $method == Method::DELETE;
+		return self::is(Method::PUT);
 	}
 	
-	public static function isOptions(string $method): bool 
+	public static function isDelete(): bool 
 	{
-		return $method == Method::OPTIONS;
+		return self::is(Method::DELETE);
+	}
+	
+	public static function isOptions(): bool 
+	{
+		return self::is(Method::OPTIONS);
 	}
 }
