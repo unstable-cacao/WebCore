@@ -26,4 +26,19 @@ class Input
 	{
 		// TODO
 	}
+	
+	public static function session(): IInput
+	{
+		// TODO
+	}
+	
+	public static function params(): IInput
+	{
+		// Get parameters based on the current request method 
+	}
+	
+	public static function method(): string
+	{
+		
+	}
 }
