@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "836f23c1caddcac225be159577a7e641",
-    "content-hash": "af6ed2f57b324379a182339fd719bb91",
+    "hash": "70db09a46e08cf0fed69a12f8a450d94",
+    "content-hash": "a5ae76d1d07b432e1d76facf584f0d00",
     "packages": [
         {
             "name": "oktopost/objection",
@@ -54,6 +54,49 @@
             "description": "Objects in PHP",
             "homepage": "https://github.com/Oktopost/Objection",
             "time": "2017-07-04 11:29:12"
+        },
+        {
+            "name": "oktopost/skeleton",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Oktopost/Skeleton.git",
+                "reference": "a9abb22bf059ddf753321ab4493dbe15b83c7be5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Oktopost/Skeleton/zipball/a9abb22bf059ddf753321ab4493dbe15b83c7be5",
+                "reference": "a9abb22bf059ddf753321ab4493dbe15b83c7be5",
+                "shasum": ""
+            },
+            "require": {
+                "oktopost/objection": "^1.0.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Skeleton": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Puchkov",
+                    "email": "alexey@oktopost.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Inversion of Control library",
+            "homepage": "https://github.com/Oktopost/Skeleton",
+            "time": "2017-08-02 07:37:39"
         }
     ],
     "packages-dev": [
