@@ -5,7 +5,9 @@ namespace WebCore\Inputs;
 use Objection\TEnum;
 use WebCore\Exception\WebCoreFatalException;
 use WebCore\IInput;
+use WebCore\Input;
 use WebCore\Inputs\Utils\BooleanConverter;
+use WebCore\Inputs\Utils\InputValidationHelper;
 
 
 class FromArray implements IInput
@@ -31,7 +33,7 @@ class FromArray implements IInput
 		
 		$value = $this->source[$name];
 		
-		return $value == (string)((int)$value);
+		return InputValidationHelper::isInt($value);
 	}
 	
 	public function isFloat(string $name): bool
@@ -41,7 +43,7 @@ class FromArray implements IInput
 		
 		$value = $this->source[$name];
 		
-		return $value == (string)((float)$value);
+		return InputValidationHelper::isFloat($value);
 	}
 	
 	public function isEmpty(string $name): bool
@@ -55,17 +57,19 @@ class FromArray implements IInput
 	
 	public function int(string $name, ?int $default = null): ?int
 	{
-		return $this->has($name) ? (int)$this->source[$name] : $default;
+		return $this->isInt($this->source[$name]) ? (int)$this->source[$name] : $default;
 	}
 	
 	public function bool(string $name, ?bool $default = null): ?bool 
 	{
-		return $this->has($name) ? BooleanConverter::get($this->source[$name]) : $default;
+		return $this->has($name) && InputValidationHelper::isBool($this->source[$name]) ? 
+			BooleanConverter::get($this->source[$name]) : 
+			$default;
 	}
 	
 	public function float(string $name, ?float $default = null): ?float 
 	{
-		return $this->has($name) ? (float)$this->source[$name] : $default;
+		return $this->isFloat($this->source[$name]) ? (float)$this->source[$name] : $default;
 	}
 	
 	public function regex(string $name, string $regex, ?string $default = null): ?string
@@ -91,7 +95,7 @@ class FromArray implements IInput
 	
 	public function string(string $name, ?string $default = null): ?string
 	{
-		return $this->has($name) ? $this->source[$name] : $default;
+		return $this->has($name) && is_string($this->source[$name]) ? $this->source[$name] : $default;
 	}
 	
 	public function enum(string $name, $enumValues, ?string $default = null): ?string
@@ -99,143 +103,149 @@ class FromArray implements IInput
 		if (!$this->has($name))
 			return $default;
 		
+		if (!InputValidationHelper::isEnum($enumValues))
+			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
+		
 		if (is_array($enumValues))
 		{
 			return in_array($this->source[$name], $enumValues) ? $this->source[$name] : $default;
 		}
 		else
 		{
-			if (!is_string($enumValues) || 
-				!class_exists($enumValues) || 
-				!key_exists(TEnum::class, class_uses($enumValues)))
-			{
-				throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
-			}
-			else
-			{
-				/** @var TEnum $enumValues */
-				return $enumValues::isExists($this->source[$name]) ? $this->source[$name] : $default;
-			}
+			/** @var TEnum $enumValues */
+			return $enumValues::isExists($this->source[$name]) ? $this->source[$name] : $default;
 		}
-	}
-	
-	
-	public function array(string $name, string $glue = ',', array $default = []): array
-	{
-		if (!$this->has($name))
-			return $default;
-		else
-			return explode($glue, $this->source[$name]);
-	}
-	
-	public function arrayInt(string $name, string $glue = ',', array $default = []): array
-	{
-		if (!$this->has($name))
-			return $default;
-		else
-		{
-			$values = explode($glue, $this->source[$name]);
-			$result = [];
-			
-			foreach ($values as $value) 
-			{
-				$result[] = (int)$value;
-			}
-			
-			return $result;
-		}
-	}
-	
-	public function arrayBool(string $name, string $glue = ',', array $default = []): array
-	{
-		if (!$this->has($name))
-			return $default;
-		else
-		{
-			$values = explode($glue, $this->source[$name]);
-			$result = [];
-			
-			foreach ($values as $value)
-			{
-				$result[] = BooleanConverter::get($value);
-			}
-			
-			return $result;
-		}
-	}
-	
-	public function arrayFloat(string $name, string $glue = ',', array $default = []): array
-	{
-		if (!$this->has($name))
-			return $default;
-		else
-		{
-			$values = explode($glue, $this->source[$name]);
-			$result = [];
-			
-			foreach ($values as $value)
-			{
-				$result[] = (float)$value;
-			}
-			
-			return $result;
-		}
-	}
-	
-	public function arrayEnum(string $name, string $glue = ',', $enumValues, array $default = []): array
-	{
-		// TODO: Implement arrayFloat() method.
 	}
 	
 	
 	public function require(string $name): string
 	{
-		// TODO: Implement require() method.
+		if (!$this->has($name))
+		    throw new \Exception("Required parameter not set");
+		
+		if (!is_string($name))
+			throw new \Exception("Required parameter must be string");
+		
+		return $this->source[$name];
 	}
 	
 	public function requireInt(string $name): int
 	{
-		// TODO: Implement requireInt() method.
+        if (!$this->has($name))
+			throw new \Exception("Required parameter not set");
+        
+        if (!InputValidationHelper::isInt($this->source[$name]))
+			throw new \Exception("Required parameter must be int");
+        
+        return (int)$this->source[$name];
 	}
 	
 	public function requireBool(string $name): bool
 	{
-		// TODO: Implement requireBool() method.
+        if (!$this->has($name))
+			throw new \Exception("Required parameter not set");
+		
+		if (!InputValidationHelper::isBool($this->source[$name]))
+			throw new \Exception("Required parameter must be bool");
+        
+        return BooleanConverter::get($this->source[$name]);
 	}
 	
 	public function requireFloat(string $name): float
 	{
-		// TODO: Implement requireFloat() method.
+        if (!$this->has($name))
+			throw new \Exception("Required parameter not set");
+		
+		if (!InputValidationHelper::isFloat($this->source[$name]))
+			throw new \Exception("Required parameter must be bool");
+        
+        return (float)$this->source[$name];
 	}
 	
 	public function requireRegex(string $name, string $regex): string
 	{
-		// TODO: Implement requireRegex() method.
+        if (!$this->has($name))
+			throw new \Exception("Required parameter not set");
+        
+        $isMatched = preg_match($regex, $this->source[$name]);
+        
+        if ($isMatched === 0)
+        {
+			throw new \Exception("Required parameter must pass regex");
+        }
+        else if ($isMatched === 1)
+        {
+            return $this->source[$name];
+        }
+        else
+        {
+            throw new WebCoreFatalException("Invalid regex");
+        }
 	}
 	
 	public function requireEnum(string $name, $enumValues): ?string
 	{
-		// TODO: Implement requireEnum() method.
+        if (!$this->has($name))
+			throw new \Exception("Required parameter not set");
+		
+		if (!InputValidationHelper::isEnum($enumValues))
+			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
+        
+        if (is_array($enumValues))
+        {
+            if (!in_array($this->source[$name], $enumValues))
+				throw new \Exception("Required parameter must be enum");
+            
+            return $this->source[$name];
+        }
+        else
+        {
+			/** @var TEnum $enumValues */
+			if (!$enumValues::isExists($this->source[$name]))
+				throw new \Exception("Required parameter must be enum");
+
+			return $this->source[$name];
+        }
 	}
 	
 	
-	public function requireArray(string $name, string $glue = ','): array
+	public function csv(string $name, string $glue = ','): ArrayInput
 	{
-		// TODO: Implement requireArray() method.
+		if ($this->has($name))
+		{
+			if (is_string($this->source[$name])) 
+			{
+				$array = explode($glue, $this->source[$name]);
+				return Input::array($array);
+			}
+			else
+			{
+				throw new \Exception("Trying to get csv from array");
+			}
+		}
+		else
+		{
+			return Input::array(null);
+		}
 	}
 	
-	public function requireArrayInt(string $name, string $glue = ','): array
-	{
-		// TODO: Implement requireArrayInt() method.
-	}
 	
-	public function requireArrayBool(string $name, string $glue = ','): array
+	public function array(string $name): ArrayInput
 	{
-		// TODO: Implement requireArrayBool() method.
-	}
-	
-	public function requireArrayFloat(string $name, string $glue = ','): array
-	{
-		// TODO: Implement requireArrayFloat() method.
+		if ($this->has($name))
+		{
+			if (is_string($this->source[$name]))
+			{
+				throw new \Exception("Expected array");
+			}
+			else
+			{
+				return Input::array($this->source[$name]);
+			}
+		}
+		else
+		{
+			return Input::array(null);
+		}
 	}
 }
