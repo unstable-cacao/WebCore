@@ -120,6 +120,13 @@ class FromArrayTest extends TestCase
 		self::assertTrue($subject->bool('a', false));
 	}
 	
+	public function test_bool_ExistsNotValid_ReturnDefault()
+	{
+		$subject = new FromArray(['a' => ['t']]);
+		
+		self::assertFalse($subject->bool('a', false));
+	}
+	
 	public function test_bool_DefaultNotSet_ReturnNull()
 	{
 		$subject = new FromArray([]);
@@ -263,6 +270,233 @@ class FromArrayTest extends TestCase
 		$subject = new FromArray(['a' => 'c']);
 		
 		self::assertEquals('a', $subject->enum('a', FromArrayTestHelper_B::class, 'a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireInt_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->requireInt('a');
+	}
+	
+	public function test_requireInt_Exists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 2]);
+		
+		self::assertEquals(2, $subject->requireInt('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireBool_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->requireBool('a');
+	}
+	
+	public function test_requireBool_Exists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 't']);
+		
+		self::assertTrue($subject->requireBool('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireFloat_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->requireFloat('a');
+	}
+	
+	public function test_requireFloat_Exists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => '3.2']);
+		
+		self::assertEquals(3.2, $subject->requireFloat('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_require_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->require('a');
+	}
+	
+	public function test_require_Exists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		self::assertEquals('b', $subject->require('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireRegex_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->requireRegex('a', '/./');
+	}
+	
+	public function test_requireRegex_ExistsAndValid_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		self::assertEquals('b', $subject->requireRegex('a', '/b/'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireRegex_ExistsAndNotValid_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireRegex('a', '/a/');
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireRegex_RegexNotValid_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireRegex('a', '[');
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireEnum_NotExists_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		
+		$subject->requireEnum('a', []);
+	}
+	
+	public function test_requireEnum_ValuesArrayAndExists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		self::assertEquals('b', $subject->requireEnum('a', ['b']));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireEnum_ValuesArrayAndNotExists_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireEnum('a', ['c']);
+	}
+	
+	/**
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
+	 */
+	public function test_requireEnum_ValuesNotStringOrArray_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireEnum('a', 1.1);
+	}
+	
+	/**
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
+	 */
+	public function test_requireEnum_ValuesNotClass_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireEnum('a', 'SomeString');
+	}
+	
+	/**
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
+	 */
+	public function test_requireEnum_ValuesNotTEnum_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		$subject->requireEnum('a', FromArrayTestHelper_A::class);
+	}
+	
+	public function test_requireEnum_ValuesTEnumAndExists_ReturnItem()
+	{
+		$subject = new FromArray(['a' => 'b']);
+		
+		self::assertEquals('b', $subject->requireEnum('a', FromArrayTestHelper_B::class));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_requireEnum_ValuesTEnumAndNotExists_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'c']);
+		
+		$subject->requireEnum('a', FromArrayTestHelper_B::class);
+	}
+	
+	public function test_csv_NotExists_ReturnArrayInput()
+	{
+		$subject = new FromArray([]);
+		
+		self::assertInstanceOf(ArrayInput::class, $subject->csv('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_csv_ItemNotString_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => ['a', 'b', 'c']]);
+		
+		$subject->csv('a');
+	}
+	
+	public function test_csv_Exists_ReturnArrayInput()
+	{
+		$subject = new FromArray(['a' => 'a,b,c']);
+		
+		self::assertInstanceOf(ArrayInput::class, $subject->csv('a'));
+	}
+	
+	public function test_array_NotExists_ReturnArrayInput()
+	{
+		$subject = new FromArray([]);
+		
+		self::assertInstanceOf(ArrayInput::class, $subject->array('a'));
+	}
+	
+	/**
+	 * @expectedException \Exception
+	 */
+	public function test_array_ItemNotArray_ExceptionThrown()
+	{
+		$subject = new FromArray(['a' => 'a,b,c']);
+		
+		$subject->array('a');
+	}
+	
+	public function test_array_Exists_ReturnArrayInput()
+	{
+		$subject = new FromArray(['a' => ['a', 'b', 'c']]);
+		
+		self::assertInstanceOf(ArrayInput::class, $subject->array('a'));
 	}
 }
 

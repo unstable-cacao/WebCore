@@ -57,7 +57,7 @@ class FromArray implements IInput
 	
 	public function int(string $name, ?int $default = null): ?int
 	{
-		return $this->isInt($this->source[$name]) ? (int)$this->source[$name] : $default;
+		return $this->isInt($name) ? (int)$this->source[$name] : $default;
 	}
 	
 	public function bool(string $name, ?bool $default = null): ?bool 
@@ -69,7 +69,7 @@ class FromArray implements IInput
 	
 	public function float(string $name, ?float $default = null): ?float 
 	{
-		return $this->isFloat($this->source[$name]) ? (float)$this->source[$name] : $default;
+		return $this->isFloat($name) ? (float)$this->source[$name] : $default;
 	}
 	
 	public function regex(string $name, string $regex, ?string $default = null): ?string
