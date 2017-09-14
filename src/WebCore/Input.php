@@ -24,18 +24,51 @@ class Input
     
     public static function headers(): IInput
     {
-        // TODO
+    	$headers = [];
+    	
+		foreach ($_SERVER as $key => $value) 
+		{
+			if (strpos($key, 'HTTP_') === 0)
+			{
+				$headers[substr($key, 5)] = $value;
+			}
+			else if ($key == 'CONTENT_LENGTH' || $key == 'CONTENT_TYPE')
+			{
+				$headers[$key] = $value;
+			}
+        }
+        
+        return new FromArray($headers);
     }
     
     public static function session(): IInput
     {
-        return new FromArray($_SESSION);
+        return new FromArray($_SESSION ?? []);
     }
     
     public static function params(): IInput
     {
-        // Get parameters based on the current request method 
+    	switch (self::method())
+		{
+			case Method::GET:
+			case Method::OPTIONS:
+			case Method::HEAD:
+			case Method::DELETE:
+				return self::get();
+			case Method::POST:
+				return self::post();
+			case Method::PUT:
+				parse_str(self::body(), $params);
+				return new FromArray($params);
+			default:
+				return new FromArray([]);
+		}
     }
+    
+    public static function body(): ?string 
+	{
+		return file_get_contents("php://input");
+	}
     
     public static function method(): string
     {
