@@ -5,7 +5,6 @@ namespace WebCore\Inputs;
 use Objection\TEnum;
 use WebCore\Exception\WebCoreFatalException;
 use WebCore\IInput;
-use WebCore\Input;
 use WebCore\Inputs\Utils\BooleanConverter;
 use WebCore\Inputs\Utils\InputValidationHelper;
 
@@ -211,41 +210,27 @@ class FromArray implements IInput
 	
 	public function csv(string $name, string $glue = ','): ArrayInput
 	{
-		if ($this->has($name))
+		if ($this->has($name) && is_string($this->source[$name])) 
 		{
-			if (is_string($this->source[$name])) 
-			{
-				$array = explode($glue, $this->source[$name]);
-				return Input::array($array);
-			}
-			else
-			{
-				throw new \Exception("Trying to get csv from array");
-			}
+			$array = explode($glue, $this->source[$name]);
+			return new ArrayInput($array);
 		}
 		else
 		{
-			return Input::array(null);
+			return new ArrayInput(null);
 		}
 	}
 	
 	
 	public function array(string $name): ArrayInput
 	{
-		if ($this->has($name))
+		if ($this->has($name) && is_array($this->source[$name]))
 		{
-			if (is_string($this->source[$name]))
-			{
-				throw new \Exception("Expected array");
-			}
-			else
-			{
-				return Input::array($this->source[$name]);
-			}
+			return new ArrayInput($this->source[$name]);
 		}
 		else
 		{
-			return Input::array(null);
+			return new ArrayInput(null);
 		}
 	}
 }

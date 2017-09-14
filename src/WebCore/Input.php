@@ -2,7 +2,6 @@
 namespace WebCore;
 
 
-use WebCore\Inputs\ArrayInput;
 use WebCore\Inputs\FromArray;
 
 
@@ -44,11 +43,6 @@ class Input
         $method = strtoupper($method);
         
         return Method::isExists($method) ? $method : Method::UNKNOWN;
-    }
-    
-    public static function array($source): ArrayInput
-    {
-        return new ArrayInput($source);
     }
 	
 	public static function is(string $method): bool 
