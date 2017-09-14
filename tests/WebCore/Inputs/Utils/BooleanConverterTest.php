@@ -5,7 +5,7 @@ namespace WebCore\Inputs\Utils;
 use PHPUnit\Framework\TestCase;
 
 
-class BooleanConverter extends TestCase
+class BooleanConverterTest extends TestCase
 {
 	public function test_get_TestFalseValues_ReturnFalse()
 	{

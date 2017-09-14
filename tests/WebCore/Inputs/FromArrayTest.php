@@ -458,14 +458,11 @@ class FromArrayTest extends TestCase
 		self::assertInstanceOf(ArrayInput::class, $subject->csv('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
-	public function test_csv_ItemNotString_ExceptionThrown()
+	public function test_csv_ItemNotString_ReturnArrayInput()
 	{
 		$subject = new FromArray(['a' => ['a', 'b', 'c']]);
 		
-		$subject->csv('a');
+		self::assertInstanceOf(ArrayInput::class, $subject->csv('a'));
 	}
 	
 	public function test_csv_Exists_ReturnArrayInput()
@@ -482,14 +479,11 @@ class FromArrayTest extends TestCase
 		self::assertInstanceOf(ArrayInput::class, $subject->array('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
-	public function test_array_ItemNotArray_ExceptionThrown()
+	public function test_array_ItemNotArray_ReturnArrayInput()
 	{
 		$subject = new FromArray(['a' => 'a,b,c']);
 		
-		$subject->array('a');
+		self::assertInstanceOf(ArrayInput::class, $subject->array('a'));
 	}
 	
 	public function test_array_Exists_ReturnArrayInput()

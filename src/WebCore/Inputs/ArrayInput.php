@@ -14,6 +14,41 @@ class ArrayInput
 	private $source;
 	
 	
+	private function parseSource(callable $callable, ?array $default = null): ?array 
+	{
+		$result = [];
+		
+		foreach ($this->source as $item)
+		{
+			$return = $callable($item);
+			
+			if (is_null($return))
+				return $default;
+			
+			$result[] = $return;
+		}
+		
+		return $result;
+	}
+	
+	private function filterSource(callable $callable): array
+	{
+		$result = [];
+		
+		foreach ($this->source as $item)
+		{
+			$return = $callable($item);
+			
+			if (is_null($return))
+				continue;
+			
+			$result[] = $return;
+		}
+		
+		return $result;
+	}
+	
+	
 	/**
 	 * @param array|null $source
 	 */
@@ -40,17 +75,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item) 
-		{
-			if (!InputValidationHelper::isInt($item))
-				return $default;
-			
-			$result[] = (int)$item;
-		}
-		
-		return $result;
+		return $this->parseSource(function($item) {
+			return InputValidationHelper::isInt($item) ? (int)$item : null;
+		}, $default);
 	}
 	
 	public function getFloat(?array $default = null): ?array 
@@ -58,17 +85,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
-			if (!InputValidationHelper::isFloat($item))
-				return $default;
-			
-			$result[] = (float)$item;
-		}
-		
-		return $result;
+		return $this->parseSource(function($item) {
+			return InputValidationHelper::isFloat($item) ? (float)$item : null;
+		}, $default);
 	}
 	
 	public function getBool(?array $default = null): ?array
@@ -76,17 +95,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
-			if (!InputValidationHelper::isBool($item))
-				return $default;
-			
-			$result[] = BooleanConverter::get($item);
-		}
-		
-		return $result;
+		return $this->parseSource(function($item) {
+			return InputValidationHelper::isBool($item) ? BooleanConverter::get($item) : null;
+		}, $default);
 	}
 	
 	public function getEnum($enumValues, ?array $default = null): ?array
@@ -97,31 +108,19 @@ class ArrayInput
 		if (!InputValidationHelper::isEnum($enumValues))
 			throw new \Exception("Not valid Enum Values");
 		
-		$result = [];
-		
 		if (is_array($enumValues))
 		{
-			foreach ($this->source as $item)
-			{
-				if (!in_array($item, $enumValues))
-					return $default;
-				
-				$result[] = $item;
-			}
+			return $this->parseSource(function($item) use ($enumValues) {
+				return in_array($item, $enumValues) ? $item : null;
+			}, $default);
 		}
 		else
 		{
-			foreach ($this->source as $item)
-			{
+			return $this->parseSource(function($item) use ($enumValues) {
 				/** @var TEnum $enumValues */
-				if (!$enumValues::isExists($item))
-					return $default;
-				
-				$result[] = $item;
-			}
+				return $enumValues::isExists($item) ? $item : null;
+			}, $default);
 		}
-		
-		return $result;
 	}
 	
 	
@@ -130,17 +129,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
-			if (!InputValidationHelper::isInt($item))
-				continue;
-			
-			$result[] = (int)$item;
-		}
-		
-		return $result;
+		return $this->filterSource(function($item) {
+			return InputValidationHelper::isInt($item) ? (int)$item : null;
+		});
 	}
 	
 	public function filterFloat(?array $default = null): ?array
@@ -148,17 +139,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
-			if (!InputValidationHelper::isFloat($item))
-				continue;
-			
-			$result[] = (float)$item;
-		}
-		
-		return $result;
+		return $this->filterSource(function($item) {
+			return InputValidationHelper::isFloat($item) ? (float)$item : null;
+		});
 	}
 	
 	public function filterBool(?array $default = null): ?array
@@ -166,17 +149,9 @@ class ArrayInput
 		if (is_null($this->source))
 			return $default;
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
-			if (!InputValidationHelper::isBool($item))
-				continue;
-			
-			$result[] = BooleanConverter::get($item);
-		}
-		
-		return $result;
+		return $this->filterSource(function($item) {
+			return InputValidationHelper::isBool($item) ? BooleanConverter::get($item) : null;
+		});
 	}
 	
 	public function filterEnum($enumValues, ?array $default = null): ?array
@@ -187,31 +162,19 @@ class ArrayInput
 		if (!InputValidationHelper::isEnum($enumValues))
 			throw new \Exception("Not valid Enum Values");
 		
-		$result = [];
-		
 		if (is_array($enumValues))
 		{
-			foreach ($this->source as $item)
-			{
-				if (!in_array($item, $enumValues))
-					continue;
-				
-				$result[] = $item;
-			}
+			return $this->filterSource(function($item) use ($enumValues) {
+				return in_array($item, $enumValues) ? $item : null;
+			});
 		}
 		else
 		{
-			foreach ($this->source as $item)
-			{
+			return $this->filterSource(function($item) use ($enumValues) {
 				/** @var TEnum $enumValues */
-				if (!$enumValues::isExists($item))
-					continue;
-				
-				$result[] = $item;
-			}
+				return $enumValues::isExists($item) ? $item : null;
+			});
 		}
-		
-		return $result;
 	}
 	
 	
@@ -225,90 +188,69 @@ class ArrayInput
 	
 	public function requireInt(): array
 	{
-		if (!$this->source)
+		if (is_null($this->source))
 			throw new \Exception("Required parameter not set");
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
+		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isInt($item))
 				throw new \Exception("Required to be int");
 			
-			$result[] = (int)$item;
-		}
-		
-		return $result;
+			return (int)$item;
+		});
 	}
 	
 	public function requireFloat(): array
 	{
-		if (!$this->source)
+		if (is_null($this->source))
 			throw new \Exception("Required parameter not set");
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
+		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isFloat($item))
 				throw new \Exception("Required to be float");
 			
-			$result[] = (float)$item;
-		}
-		
-		return $result;
+			return (float)$item;
+		});
 	}
 	
 	public function requireBool(): array
 	{
-		if (!$this->source)
+		if (is_null($this->source))
 			throw new \Exception("Required parameter not set");
 		
-		$result = [];
-		
-		foreach ($this->source as $item)
-		{
+		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isBool($item))
 				throw new \Exception("Required to be bool");
 			
-			$result[] = BooleanConverter::get($item);
-		}
-		
-		return $result;
+			return BooleanConverter::get($item);
+		});
 	}
 	
 	public function requireEnum($enumValues): array
 	{
-		if (!$this->source)
+		if (is_null($this->source))
 			throw new \Exception("Required parameter not set");
 		
 		if (!InputValidationHelper::isEnum($enumValues))
 			throw new BadRequestException();
 		
-		$result = [];
-		
 		if (is_array($enumValues))
 		{
-			foreach ($this->source as $item)
-			{
+			return $this->parseSource(function($item) use ($enumValues) {
 				if (!in_array($item, $enumValues))
 					throw new \Exception("Required to be Enum");
 				
-				$result[] = $item;
-			}
+				return $item;
+			});
 		}
 		else
 		{
-			foreach ($this->source as $item)
-			{
+			return $this->parseSource(function($item) use ($enumValues) {
 				/** @var TEnum $enumValues */
 				if (!$enumValues::isExists($item))
 					throw new \Exception("Required to be Enum");
 				
-				$result[] = $item;
-			}
+				return $item;
+			});
 		}
-		
-		return $result;
 	}
 }
