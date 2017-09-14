@@ -164,7 +164,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_getEnum_EnumValuesNotValid_ExceptionThrown()
 	{
@@ -300,7 +300,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_filterEnum_EnumValuesNotValid_ExceptionThrown()
 	{
@@ -487,7 +487,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireEnum_EnumValuesNotValid_ExceptionThrown()
 	{

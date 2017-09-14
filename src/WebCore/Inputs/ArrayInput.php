@@ -3,7 +3,7 @@ namespace WebCore\Inputs;
 
 
 use Objection\TEnum;
-use WebCore\Exception\BadRequestException;
+use WebCore\Exception\WebCoreFatalException;
 use WebCore\Inputs\Utils\BooleanConverter;
 use WebCore\Inputs\Utils\InputValidationHelper;
 
@@ -54,14 +54,10 @@ class ArrayInput
 	 */
 	public function __construct($source)
 	{
-		if (is_array($source) || is_null($source))
-		{
-			$this->source = $source;
-		}
-		else
-		{
+		if (!is_array($source) && !is_null($source))
 			throw new \Exception("Source expected to be array or null");
-		}
+		
+		$this->source = $source;
 	}
 	
 	
@@ -106,7 +102,7 @@ class ArrayInput
 			return $default;
 		
 		if (!InputValidationHelper::isEnum($enumValues))
-			throw new \Exception("Not valid Enum Values");
+			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
 		
 		if (is_array($enumValues))
 		{
@@ -160,7 +156,7 @@ class ArrayInput
 			return $default;
 		
 		if (!InputValidationHelper::isEnum($enumValues))
-			throw new \Exception("Not valid Enum Values");
+			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
 		
 		if (is_array($enumValues))
 		{
@@ -231,7 +227,7 @@ class ArrayInput
 			throw new \Exception("Required parameter not set");
 		
 		if (!InputValidationHelper::isEnum($enumValues))
-			throw new BadRequestException();
+			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
 		
 		if (is_array($enumValues))
 		{
