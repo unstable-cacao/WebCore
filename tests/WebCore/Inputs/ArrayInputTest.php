@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class ArrayInputTest extends TestCase
 {
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_NotValidSource_ExceptionThrown()
 	{
@@ -310,7 +310,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_require_Null_ExceptionThrown()
 	{
@@ -334,7 +334,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireInt_Null_ExceptionThrown()
 	{
@@ -358,7 +358,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireInt_NotAllValid_ExceptionThrown()
 	{
@@ -368,7 +368,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireFloat_Null_ExceptionThrown()
 	{
@@ -392,7 +392,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireFloat_NotAllValid_ExceptionThrown()
 	{
@@ -402,7 +402,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireBool_Null_ExceptionThrown()
 	{
@@ -426,7 +426,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireBool_NotAllValid_ExceptionThrown()
 	{
@@ -436,7 +436,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireEnum_Null_ExceptionThrown()
 	{
@@ -460,7 +460,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireEnum_NotAllValidEnumArray_ExceptionThrown()
 	{
@@ -477,7 +477,7 @@ class ArrayInputTest extends TestCase
 	}
 	
 	/**
-	 * @expectedException \Exception
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
 	 */
 	public function test_requireEnum_NotAllValidTEnum_ExceptionThrown()
 	{
