@@ -3,6 +3,7 @@ namespace WebCore\Inputs;
 
 
 use Objection\TEnum;
+use WebCore\Exception\BadRequestException;
 use WebCore\Exception\WebCoreFatalException;
 use WebCore\Inputs\Utils\BooleanConverter;
 use WebCore\Inputs\Utils\InputValidationHelper;
@@ -177,7 +178,7 @@ class ArrayInput
 	public function require(): array
 	{
 		if (is_null($this->source))
-			throw new WebCoreFatalException("Required parameter not set");
+			throw new BadRequestException("Required parameter not set");
 		
 		return $this->source;
 	}
@@ -185,11 +186,11 @@ class ArrayInput
 	public function requireInt(): array
 	{
 		if (is_null($this->source))
-			throw new WebCoreFatalException("Required parameter not set");
+			throw new BadRequestException("Required parameter not set");
 		
 		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isInt($item))
-				throw new WebCoreFatalException("Required to be int");
+				throw new BadRequestException("Required to be int");
 			
 			return (int)$item;
 		});
@@ -198,11 +199,11 @@ class ArrayInput
 	public function requireFloat(): array
 	{
 		if (is_null($this->source))
-			throw new WebCoreFatalException("Required parameter not set");
+			throw new BadRequestException("Required parameter not set");
 		
 		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isFloat($item))
-				throw new WebCoreFatalException("Required to be float");
+				throw new BadRequestException("Required to be float");
 			
 			return (float)$item;
 		});
@@ -211,11 +212,11 @@ class ArrayInput
 	public function requireBool(): array
 	{
 		if (is_null($this->source))
-			throw new WebCoreFatalException("Required parameter not set");
+			throw new BadRequestException("Required parameter not set");
 		
 		return $this->parseSource(function($item) {
 			if (!InputValidationHelper::isBool($item))
-				throw new WebCoreFatalException("Required to be bool");
+				throw new BadRequestException("Required to be bool");
 			
 			return BooleanConverter::get($item);
 		});
@@ -224,7 +225,7 @@ class ArrayInput
 	public function requireEnum($enumValues): array
 	{
 		if (is_null($this->source))
-			throw new WebCoreFatalException("Required parameter not set");
+			throw new BadRequestException("Required parameter not set");
 		
 		if (!InputValidationHelper::isEnum($enumValues))
 			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
@@ -233,7 +234,7 @@ class ArrayInput
 		{
 			return $this->parseSource(function($item) use ($enumValues) {
 				if (!in_array($item, $enumValues))
-					throw new WebCoreFatalException("Required to be Enum");
+					throw new BadRequestException("Required to be Enum");
 				
 				return $item;
 			});
@@ -243,7 +244,7 @@ class ArrayInput
 			return $this->parseSource(function($item) use ($enumValues) {
 				/** @var TEnum $enumValues */
 				if (!$enumValues::isExists($item))
-					throw new WebCoreFatalException("Required to be Enum");
+					throw new BadRequestException("Required to be Enum");
 				
 				return $item;
 			});
