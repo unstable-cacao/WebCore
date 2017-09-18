@@ -11,12 +11,13 @@ class WebServerException extends \Exception
 	
 	public function __construct($code, $userMessage = null, $message = "", Exception $previous = null)
 	{
-		// TODO:
+	    parent::__construct($message, $code, $previous);
+		$this->userMessage = $userMessage;
 	}
 	
 	
 	public function getUserMessage()
 	{
-		// TODO:
+		return $this->userMessage;
 	}
 }
