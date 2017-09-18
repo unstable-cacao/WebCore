@@ -1,30 +1,30 @@
-####get(): IInput
+#### get(): IInput
 Return *IInput* sourced from $_GET.
 
 <br>
 
-####post(): IInput
+#### post(): IInput
 Return *IInput* sourced from $_POST.
 
 <br>
 
-####cookies(): IInput
+#### cookies(): IInput
 Return *IInput* sourced from $_COOKIE.
 
 <br>
 
-####headers(): IInput
+#### headers(): IInput
 Return *IInput* containing all delivered request headers.
 
 <br>
 
-####session(): IInput
+#### session(): IInput
 Return *IInput* sourced from $_SESSION. 
 If session does not exist, *IInput* sourced from empty array.
 
 <br>
 
-####params(): IInput
+#### params(): IInput
 Return *IInput* sourced from:
  * $_GET for methods GET, OPTIONS, HEAD, DELETE
  * $_POST for method POST
@@ -33,45 +33,45 @@ Return *IInput* sourced from:
 
 <br>
 
-####body(): string
+#### body(): string
 Return the raw body of the request.
 
 <br>
 
-####method(): string
+#### method(): string
 Return one of *Method* constants, according to request method.
 
 <br>
 
-####is(string $method): bool
+#### is(string $method): bool
 Return true if given string is the method of the request.
 
 <br>
 
-####isGet(): bool
+#### isGet(): bool
 Return true if request method is GET.
 
 <br>
 
-####isHead(): bool
+#### isHead(): bool
 Return true if request method is HEAD.
 
 <br>
 
-####isPost(): bool
+#### isPost(): bool
 Return true if request method is POST.
 
 <br>
 
-####isPut(): bool
+#### isPut(): bool
 Return true if request method is PUT.
 
 <br>
 
-####isDelete(): bool
+#### isDelete(): bool
 Return true if request method is DELETE.
 
 <br>
 
-####isOptions(): bool
+#### isOptions(): bool
 Return true if request method is OPTIONS.
