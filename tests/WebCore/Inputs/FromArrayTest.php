@@ -281,6 +281,16 @@ class FromArrayTest extends TestCase
 		
 		$subject->requireInt('a');
 	}
+    
+    /**
+     * @expectedException \Exception
+     */
+    public function test_requireInt_ValueNotInt_ExceptionThrown()
+    {
+        $subject = new FromArray(['a' => 'test']);
+        
+        $subject->requireInt('a');
+    }
 	
 	public function test_requireInt_Exists_ReturnItem()
 	{
@@ -299,6 +309,16 @@ class FromArrayTest extends TestCase
 		$subject->requireBool('a');
 	}
 	
+    /**
+     * @expectedException \Exception
+     */
+    public function test_requireBool_ValueNotBool_ExceptionThrown()
+    {
+        $subject = new FromArray(['a' => []]);
+        
+        $subject->requireBool('a');
+    }
+	
 	public function test_requireBool_Exists_ReturnItem()
 	{
 		$subject = new FromArray(['a' => 't']);
@@ -315,6 +335,16 @@ class FromArrayTest extends TestCase
 		
 		$subject->requireFloat('a');
 	}
+    
+    /**
+     * @expectedException \Exception
+     */
+    public function test_requireFloat_ValueNotFloat_ExceptionThrown()
+    {
+        $subject = new FromArray(['a' => '2.a']);
+        
+        $subject->requireFloat('a');
+    }
 	
 	public function test_requireFloat_Exists_ReturnItem()
 	{
@@ -332,6 +362,16 @@ class FromArrayTest extends TestCase
 		
 		$subject->require('a');
 	}
+    
+    /**
+     * @expectedException \Exception
+     */
+    public function test_require_NotString_ExceptionThrown()
+    {
+        $subject = new FromArray(['a' => []]);
+        
+        $subject->require('a');
+    }
 	
 	public function test_require_Exists_ReturnItem()
 	{

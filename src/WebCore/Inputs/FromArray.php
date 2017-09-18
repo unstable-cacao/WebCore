@@ -120,10 +120,10 @@ class FromArray implements IInput
 	public function require(string $name): string
 	{
 		if (!$this->has($name))
-		    throw new \Exception("Required parameter not set");
+		    throw new WebCoreFatalException("Required parameter not set");
 		
-		if (!is_string($name))
-			throw new \Exception("Required parameter must be string");
+		if (!is_string($this->source[$name]))
+			throw new WebCoreFatalException("Required parameter must be string");
 		
 		return $this->source[$name];
 	}
@@ -131,10 +131,10 @@ class FromArray implements IInput
 	public function requireInt(string $name): int
 	{
         if (!$this->has($name))
-			throw new \Exception("Required parameter not set");
+			throw new WebCoreFatalException("Required parameter not set");
         
         if (!InputValidationHelper::isInt($this->source[$name]))
-			throw new \Exception("Required parameter must be int");
+			throw new WebCoreFatalException("Required parameter must be int");
         
         return (int)$this->source[$name];
 	}
@@ -142,10 +142,10 @@ class FromArray implements IInput
 	public function requireBool(string $name): bool
 	{
         if (!$this->has($name))
-			throw new \Exception("Required parameter not set");
+			throw new WebCoreFatalException("Required parameter not set");
 		
 		if (!InputValidationHelper::isBool($this->source[$name]))
-			throw new \Exception("Required parameter must be bool");
+			throw new WebCoreFatalException("Required parameter must be bool");
         
         return BooleanConverter::get($this->source[$name]);
 	}
@@ -153,10 +153,10 @@ class FromArray implements IInput
 	public function requireFloat(string $name): float
 	{
         if (!$this->has($name))
-			throw new \Exception("Required parameter not set");
+			throw new WebCoreFatalException("Required parameter not set");
 		
 		if (!InputValidationHelper::isFloat($this->source[$name]))
-			throw new \Exception("Required parameter must be bool");
+			throw new WebCoreFatalException("Required parameter must be bool");
         
         return (float)$this->source[$name];
 	}
@@ -164,13 +164,13 @@ class FromArray implements IInput
 	public function requireRegex(string $name, string $regex): string
 	{
         if (!$this->has($name))
-			throw new \Exception("Required parameter not set");
+			throw new WebCoreFatalException("Required parameter not set");
         
         $isMatched = preg_match($regex, $this->source[$name]);
         
         if ($isMatched === 0)
         {
-			throw new \Exception("Required parameter must pass regex");
+			throw new WebCoreFatalException("Required parameter must pass regex");
         }
         else if ($isMatched === 1)
         {
@@ -185,7 +185,7 @@ class FromArray implements IInput
 	public function requireEnum(string $name, $enumValues): ?string
 	{
         if (!$this->has($name))
-			throw new \Exception("Required parameter not set");
+			throw new WebCoreFatalException("Required parameter not set");
 		
 		if (!InputValidationHelper::isEnum($enumValues))
 			throw new WebCoreFatalException("Invalid Enum Values passed. Must be array or use the " . TEnum::class);
@@ -193,7 +193,7 @@ class FromArray implements IInput
         if (is_array($enumValues))
         {
             if (!in_array($this->source[$name], $enumValues))
-				throw new \Exception("Required parameter must be enum");
+				throw new WebCoreFatalException("Required parameter must be enum");
             
             return $this->source[$name];
         }
@@ -201,7 +201,7 @@ class FromArray implements IInput
         {
 			/** @var TEnum $enumValues */
 			if (!$enumValues::isExists($this->source[$name]))
-				throw new \Exception("Required parameter must be enum");
+				throw new WebCoreFatalException("Required parameter must be enum");
 
 			return $this->source[$name];
         }
