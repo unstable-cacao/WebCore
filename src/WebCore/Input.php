@@ -7,6 +7,13 @@ use WebCore\Inputs\FromArray;
 
 class Input
 {
+    private const HEADER_PREFIX     = 'HTTP_';
+    private const UNIQUE_HEADERS    = [
+        'CONTENT_LENGTH',
+        'CONTENT_TYPE'
+    ];
+    
+    
     public static function get(): IInput
     {
         return new FromArray($_GET);
@@ -28,11 +35,11 @@ class Input
     	
 		foreach ($_SERVER as $key => $value) 
 		{
-			if (strpos($key, 'HTTP_') === 0)
+			if (strpos($key, self::HEADER_PREFIX) === 0)
 			{
 				$headers[substr($key, 5)] = $value;
 			}
-			else if ($key == 'CONTENT_LENGTH' || $key == 'CONTENT_TYPE')
+			else if (in_array($key, self::UNIQUE_HEADERS))
 			{
 				$headers[$key] = $value;
 			}
@@ -65,7 +72,7 @@ class Input
 		}
     }
     
-    public static function body(): ?string 
+    public static function body(): string 
 	{
 		return file_get_contents("php://input");
 	}

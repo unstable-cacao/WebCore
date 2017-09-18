@@ -159,4 +159,74 @@ class InputTest extends TestCase
 		
 		self::assertTrue(Input::session()->has('test'));
 	}
+	
+	public function test_params_MethodGet_ReturnGet()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_GET = ['test' => 1];
+        $subject = Input::params();
+        
+        self::assertTrue($subject->has('test'));
+    }
+    
+    public function test_params_MethodOptions_ReturnGet()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+        $_GET = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertTrue($subject->has('test'));
+    }
+    
+    public function test_params_MethodHead_ReturnGet()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'HEAD';
+        $_GET = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertTrue($subject->has('test'));
+    }
+    
+    public function test_params_MethodDelete_ReturnGet()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
+        $_GET = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertTrue($subject->has('test'));
+    }
+    
+    public function test_params_MethodPost_ReturnPost()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertTrue($subject->has('test'));
+    }
+    
+    public function test_params_MethodPut_ReturnEmptyIInput()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'PUT';
+        $_GET = ['test' => 1];
+        $_POST = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertFalse($subject->has('test'));
+    }
+    
+    public function test_params_MethodUnknown_ReturnEmptyIInput()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'test';
+        $_GET = ['test' => 1];
+        $_POST = ['test' => 1];
+        $subject = Input::params();
+    
+        self::assertFalse($subject->has('test'));
+    }
+    
+    public function test_body_Empty_ReturnEmptyString()
+    {
+        self::assertEquals('', Input::body());
+    }
 }
