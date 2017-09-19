@@ -1,40 +1,52 @@
+## Methods
+There are no non static methods in this class.
+
+<br>
+
+## Static Methods
+
 #### get(): IInput
-Return *IInput* sourced from $_GET.
+Return an implementation of *IInput* that encapsulates the values of the $_GET global variable.
 
 <br>
 
 #### post(): IInput
-Return *IInput* sourced from $_POST.
+Return an implementation of *IInput* that encapsulates the values of the $_POST global variable.
 
 <br>
 
 #### cookies(): IInput
-Return *IInput* sourced from $_COOKIE.
+Return an implementation of *IInput* that encapsulates the values of the $_COOKIE global variable.
 
 <br>
 
 #### headers(): IInput
-Return *IInput* containing all delivered request headers.
+Return an implementation of *IInput* that encapsulates all found headers passed to $_SERVER.
 
 <br>
 
 #### session(): IInput
-Return *IInput* sourced from $_SESSION. 
-If session does not exist, *IInput* sourced from empty array.
+Return an implementation of *IInput* that encapsulates the values of the $_SESSION global variable.
+If session does not exist, *IInput* implementation receives an empty array.
 
 <br>
 
 #### params(): IInput
-Return *IInput* sourced from:
- * $_GET for methods GET, OPTIONS, HEAD, DELETE
- * $_POST for method POST
- * request body for method PUT
- * empty array for UNKNOWN method
+Return an implementation of *IInput* that is initialized with values based on the current request Method. See table:
+| Method  | Initialized with                                     |
+|---------|------------------------------------------------------|
+| GET     | $_GET                                                |
+| OPTIONS | $_GET                                                |
+| HEAD    | $_GET                                                |
+| DELETE  | $_GET                                                |
+| POST    | $_POST                                               |
+| PUT     | array of parsed parameters from the raw request body |
+| UNKNOWN | empty array                                          |
 
 <br>
 
 #### body(): string
-Return the raw body of the request.
+Return the raw request body as string.
 
 <br>
 
