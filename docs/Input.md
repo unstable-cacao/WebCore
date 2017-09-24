@@ -33,6 +33,7 @@ If session does not exist, *IInput* implementation receives an empty array.
 
 #### params(): IInput
 Return an implementation of *IInput* that is initialized with values based on the current request Method. See table:
+
 | Method  | Initialized with                                     |
 |---------|------------------------------------------------------|
 | GET     | $_GET                                                |
