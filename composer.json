@@ -27,8 +27,8 @@
         "satooshi/php-coveralls": "^1.0"
     },
 	"autoload": {
-		"psr-0": {
-			"WebCore": "src"
+		"psr-4": {
+			"WebCore\\": "src/"
 		}
 	},
     "scripts": {
