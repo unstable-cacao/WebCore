@@ -10,6 +10,11 @@ class HeadersLoader
 	use TStaticClass;
 
 	
+	private const UNIQUE_HEADERS = [
+        'CONTENT_LENGTH',
+        'CONTENT_TYPE'
+    ];
+	
 	private static $headers = null;
 	
 	
@@ -31,6 +36,14 @@ class HeadersLoader
 				if (strlen($key) > 5 && substr($key, 0, 5) == 'HTTP_')
 				{
 					$headers[substr($key, 5)] = $value;
+				}
+			}
+			
+			foreach (self::UNIQUE_HEADERS as $special)
+			{
+				if (isset($_SERVER[$special]))
+				{
+					$headers[$special] = $_SERVER[$special];
 				}
 			}
 			

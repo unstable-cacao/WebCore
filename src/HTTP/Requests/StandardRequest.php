@@ -2,12 +2,10 @@
 namespace WebCore\HTTP\Requests;
 
 
+use WebCore\HTTP\Utilities;
 use WebCore\Method;
 use WebCore\IRequest;
 use WebCore\Base\HTTP\IRequestFiles;
-use WebCore\HTTP\Utilities\HeadersLoader;
-use WebCore\HTTP\Utilities\RequestParams;
-use WebCore\HTTP\Utilities\IsHTTPSValidator;
 use WebCore\Exception\WebCoreFatalException;
 
 
@@ -61,7 +59,7 @@ class StandardRequest implements IRequest
 	public function isHttps(): bool
 	{
 		if (is_null($this->isHttps))
-			$this->isHttps = IsHTTPSValidator::isHttps();
+			$this->isHttps = Utilities::isHTTPSRequest();
 		
 		return $this->isHttps;
 	}
@@ -69,7 +67,7 @@ class StandardRequest implements IRequest
 	public function getHeaders(): array
 	{
 		if (is_null($this->headers))
-			$this->headers = HeadersLoader::getAllHeaders();
+			$this->headers = Utilities::getAllHeaders();
 		
 		return $this->headers;
 	}
@@ -101,7 +99,7 @@ class StandardRequest implements IRequest
 	public function getParams(): array
 	{
 		if ($this->params)
-			$this->params = RequestParams::get();
+			$this->params = Utilities::getAllParams();
 		
 		return $this->params;
 	}
