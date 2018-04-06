@@ -4,7 +4,7 @@ namespace WebCore\Validation;
 
 use Skeleton\Skeleton;
 
-use WebCore\Input;
+use WebCore\RequestInput;
 use WebCore\IInput;
 use WebCore\Exception\BadRequestException;
 
@@ -35,7 +35,7 @@ class AbstractValidator
 	
 	protected static function getSource(?IInput $source): IInput
 	{
-		return $source ?: Input::params();
+		return $source ?: RequestInput::params();
 	}
 
 	/**
@@ -44,7 +44,7 @@ class AbstractValidator
 	 */
 	protected static function getObjects(?IInput &$source)
 	{
-		$source = $source ?: Input::params();
+		$source = $source ?: RequestInput::params();
 		$instance = new static();
 		return self::getSkeleton()->load($instance);
 	}
