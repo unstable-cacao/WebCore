@@ -3,7 +3,7 @@ namespace WebCore\Validation;
 
 
 use WebCore\IInput;
-use WebCore\IRequest;
+use WebCore\IWebRequest;
 use WebCore\IRequestInput;
 use WebCore\Base\Input\IInputContainer;
 
@@ -14,7 +14,7 @@ class InputValidator
 	private $container;
 	
 	
-	protected function getRequest(): IRequest
+	protected function getRequest(): IWebRequest
 	{
 		return $this->container->getRequest();
 	}

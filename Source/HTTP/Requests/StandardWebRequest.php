@@ -2,14 +2,16 @@
 namespace WebCore\HTTP\Requests;
 
 
-use WebCore\HTTP\Utilities;
+use WebCore\IInput;
 use WebCore\Method;
-use WebCore\IRequest;
+use WebCore\IWebRequest;
+use WebCore\HTTP\Utilities;
 use WebCore\Base\HTTP\IRequestFiles;
+use WebCore\Inputs\FromArray;
 use WebCore\Exception\WebCoreFatalException;
 
 
-class StandardRequest implements IRequest
+class StandardWebRequest implements IWebRequest
 {
 	private static $current = null;
 	
@@ -29,23 +31,29 @@ class StandardRequest implements IRequest
 	
 	public function isHttp(): bool { return !$this->$this->isHttps(); }
 	
-	public function getHeader(string $header, ?string $default = null): ?string { return $this->getHeaders()[$header] ?? $default; }
+	
+	public function getHeaders(): IInput { return new FromArray($this->getHeadersArray()); }
+	public function getHeader(string $header, ?string $default = null): ?string { return $this->getHeaders()->string($header, $default); }
 	public function hasHeader(string $header): bool { return isset($this->getHeaders()[$header]); }
 	
-	public function getCookies(): array { return $_COOKIE;	}
-	public function getCookie(string $cookie, ?string $default = null): ?string { return $_COOKIE[$cookie] ?? $default;	}
+	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
+	public function getCookiesArray(): array { return $_COOKIE;	}
+	public function getCookie(string $cookie, ?string $default = null): ?string { return ($_COOKIE[$cookie] ?? $default); }
 	public function hasCookie(string $cookie): bool { return isset($_COOKIE[$cookie]); }
 	
-	public function getParam(string $param, ?string $default = null): ?string { return $this->getParams()[$param] ?? $default; }
+	public function getParams(): IInput { return new FromArray($this->getParamsArray()); }
+	public function getParam(string $param, ?string $default = null): ?string { return $this->getParams()->string($param, $default); }
 	public function hasParam(string $param): bool { return isset($this->getParams()[$param]); }
 	
-	public function getQueryParams(): array { return $_GET; }
+	public function getQuery(): IInput { return new FromArray($this->getQueryArray()); }
+	public function getQueryArray(): array { return $_GET; }
 	public function getQueryParam(string $param, ?string $default = null): ?string { return $_GET[$param] ?? $default; }
 	public function hasQueryParam(string $param): bool { return isset($_GET[$param]); } 
 
-	public function getPostParams(): array { return $_GET; }
-	public function getPostParam(string $param, ?string $default = null): ?string { return $_GET[$param] ?? $default; }
-	public function hasPostParam(string $param): bool { return isset($_GET[$param]); }
+	public function getPost(): IInput { return new FromArray($this->getPostArray()); }
+	public function getPostArray(): array { return $_POST; }
+	public function getPostParam(string $param, ?string $default = null): ?string { return $_POST[$param] ?? $default; }
+	public function hasPostParam(string $param): bool { return isset($_POST[$param]); }
 	
 	
 	public function getMethod(): string
@@ -63,13 +71,40 @@ class StandardRequest implements IRequest
 		
 		return $this->isHttps;
 	}
-
-	public function getHeaders(): array
+	
+	public function getHeadersArray(): array
 	{
 		if (is_null($this->headers))
 			$this->headers = Utilities::getAllHeaders();
 		
 		return $this->headers;
+	}
+	
+	public function getParamsArray(): array
+	{
+		if (is_null($this->params))
+		{
+			switch ($this->getMethod())
+			{
+				case Method::POST:
+					$this->params = self::getPostArray();
+					break;
+					
+				case Method::PUT:
+					parse_str($this->getBody(), $this->params);
+					break;
+					
+				case Method::GET:
+				case Method::OPTIONS:
+				case Method::HEAD:
+				case Method::DELETE:
+				default:
+					$this->params = $this->getQueryArray();
+					break;
+			}
+		}
+		
+		return $this->params;
 	}
 
 	public function getPort(): ?int
@@ -94,14 +129,6 @@ class StandardRequest implements IRequest
 	{
 		$protocol = $this->isHttp() ? 'http' : 'https';
 		return "{$protocol}://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-	}
-
-	public function getParams(): array
-	{
-		if ($this->params)
-			$this->params = Utilities::getAllParams();
-		
-		return $this->params;
 	}
 	
 	
@@ -137,7 +164,7 @@ class StandardRequest implements IRequest
 	}
 	
 	
-	public static function current(): StandardRequest
+	public static function current(): StandardWebRequest
 	{
 		if (!self::$current)
 			self::$current = new static();

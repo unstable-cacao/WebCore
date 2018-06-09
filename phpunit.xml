@@ -1,14 +1,14 @@
-<phpunit bootstrap="tests/boot.php"
+<phpunit bootstrap="Tests/boot.php"
     convertNoticesToExceptions="false"
     convertWarningsToExceptions="false">
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">./Source/</directory>
         </whitelist>
     </filter>
     <testsuites>
         <testsuite name="WebCore">
-            <directory>tests</directory>
+            <directory>Tests</directory>
         </testsuite>
     </testsuites>
     <logging>

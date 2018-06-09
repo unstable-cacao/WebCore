@@ -28,9 +28,11 @@
         "phpunit/phpunit": "^6.2",
         "satooshi/php-coveralls": "^1.0"
     },
-	"autoload": {
-		"psr-4": {
-			"WebCore\\": "src/"
+	"autoload": 
+	{
+		"psr-4": 
+		{
+			"WebCore\\": "Source/"
 		}
 	},
     "scripts": {

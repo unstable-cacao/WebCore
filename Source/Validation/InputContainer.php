@@ -2,9 +2,8 @@
 namespace WebCore\Validation;
 
 
-use Narrator\Narrator;
 use WebCore\IInput;
-use WebCore\IRequest;
+use WebCore\IWebRequest;
 use WebCore\IRequestInput;
 
 use WebCore\Base\Input\IInputContainer;
@@ -27,7 +26,7 @@ class InputContainer implements IInputContainer
 	}
 
 
-	public function getRequest(): IRequest
+	public function getRequest(): IWebRequest
 	{
 		return $this->requestInput->request();
 	}

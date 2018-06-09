@@ -5,7 +5,7 @@ namespace WebCore;
 use WebCore\Base\HTTP\IRequestFiles;
 
 
-interface IRequest
+interface IWebRequest
 {
 	public function getMethod(): string;
 	public function isMethod(string $method): bool;
@@ -21,23 +21,28 @@ interface IRequest
 	public function getURI(): string;
 	public function getURL(): string;
 	
-	public function getHeaders(): array;
+	public function getHeaders(): IInput;
+	public function getHeadersArray(): array;
 	public function getHeader(string $header, ?string $default = null): ?string;
 	public function hasHeader(string $header): bool;
 	
-	public function getCookies(): array;
+	public function getCookies(): IInput;
+	public function getCookiesArray(): array;
 	public function getCookie(string $cookie, ?string $default = null): ?string;
 	public function hasCookie(string $cookie): bool;
 	
-	public function getParams(): array;
+	public function getParams(): IInput;
+	public function getParamsArray(): array;
 	public function getParam(string $param, ?string $default = null): ?string;
 	public function hasParam(string $param): bool;
 	
-	public function getQueryParams(): array;
+	public function getQuery(): IInput;
+	public function getQueryArray(): array;
 	public function getQueryParam(string $param, ?string $default = null): ?string;
 	public function hasQueryParam(string $param): bool;
 	
-	public function getPostParams(): array;
+	public function getPost(): IInput;
+	public function getPostArray(): array;
 	public function getPostParam(string $param, ?string $default = null): ?string;
 	public function hasPostParam(string $param): bool;
 	

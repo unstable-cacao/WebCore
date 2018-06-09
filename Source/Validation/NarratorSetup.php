@@ -5,7 +5,7 @@ namespace WebCore\Validation;
 use Narrator\Narrator;
 use WebCore\Base\Input\IInputContainer;
 use WebCore\IInput;
-use WebCore\IRequest;
+use WebCore\IWebRequest;
 use WebCore\RequestInput;
 
 
@@ -18,7 +18,7 @@ class NarratorSetup
 		
 		$params
 			->byType(RequestInput::class, $container->getRequestInput())
-			->byType(IRequest::class, $container->getRequest())
+			->byType(IWebRequest::class, $container->getRequest())
 			->byType(IInput::class, 
 				function () use ($container) 
 				{ 
