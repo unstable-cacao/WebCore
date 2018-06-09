@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "564cd84214563c974b5f5176bed72b96",
-    "content-hash": "4c8df99132b7268aa15c4059bbe186ba",
+    "hash": "87de3c59109796293ba09faa452d5a7d",
+    "content-hash": "399a1699c5b66905897650cdd6238673",
     "packages": [
         {
             "name": "oktopost/jsonencode",
@@ -142,6 +142,46 @@
             "description": "Inversion of Control library",
             "homepage": "https://github.com/Oktopost/Skeleton",
             "time": "2017-08-02 07:37:39"
+        },
+        {
+            "name": "unstable-cacao/narrator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/unstable-cacao/Narrator.git",
+                "reference": "0de2deb7ef94ddb9989345c5d2c1ff39df5cd10c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unstable-cacao/Narrator/zipball/0de2deb7ef94ddb9989345c5d2c1ff39df5cd10c",
+                "reference": "0de2deb7ef94ddb9989345c5d2c1ff39df5cd10c",
+                "shasum": ""
+            },
+            "require": {
+                "oktopost/skeleton": "^1.1",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Narrator": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marina Sherstuk",
+                    "email": "marinashers@gmail.com"
+                }
+            ],
+            "time": "2018-01-04 06:02:31"
         }
     ],
     "packages-dev": [
@@ -2256,7 +2296,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "unstable-cacao/narrator": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
