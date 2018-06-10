@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b238e53c7f9c295f7c633104645f134c",
-    "content-hash": "399a1699c5b66905897650cdd6238673",
+    "hash": "6425d200594fd3c8c87f94518e68dd86",
+    "content-hash": "9d5e51825a56ab88883b007ecc8b35b7",
     "packages": [
         {
             "name": "oktopost/jsonencode",
@@ -183,6 +183,47 @@
                 }
             ],
             "time": "2018-06-07 08:50:25"
+        },
+        {
+            "name": "unstable-cacao/structura",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/unstable-cacao/Structura.git",
+                "reference": "5908c401bdfed7bbd8a90ce75337b845289e49ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unstable-cacao/Structura/zipball/5908c401bdfed7bbd8a90ce75337b845289e49ca",
+                "reference": "5908c401bdfed7bbd8a90ce75337b845289e49ca",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Structura": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Puchkov",
+                    "email": "alexey.pkv@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "homepage": "https://github.com/unstable-cacao/Structura",
+            "time": "2017-11-28 07:21:48"
         },
         {
             "name": "unstable-cacao/traitor",

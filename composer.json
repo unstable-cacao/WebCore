@@ -22,7 +22,8 @@
 		"oktopost/objection": "^1.0",
 		"oktopost/skeleton": "^1.1",
 		"oktopost/jsonencode": "^1.0",
-		"unstable-cacao/narrator": "dev-master"
+		"unstable-cacao/narrator": "dev-master",
+		"unstable-cacao/structura": "^1.0"
 	},
     "require-dev": {
         "phpunit/phpunit": "^6.2",

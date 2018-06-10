@@ -2,18 +2,19 @@
 namespace WebCore\Validation;
 
 
-use Skeleton\Skeleton;
 use Narrator\Narrator;
+
+use Skeleton\Skeleton;
 use Skeleton\Base\ISkeletonSource;
 
-use WebCore\Base\Validation\IValidationLoader;
 use WebCore\IWebRequest;
+use WebCore\Base\Validation\IValidationLoader;
 use WebCore\Validation\Loader\InputLoader;
-use WebCore\Validation\Loader\PassedParamsLoader;
 use WebCore\Validation\Loader\ScalarLoader;
+use WebCore\Validation\Loader\PassedParamsLoader;
 
 
-class ValidationLoader
+class ValidationLoader implements IValidationLoader
 {
 	/** @var Narrator */
 	private $narrator = null;
@@ -55,11 +56,23 @@ class ValidationLoader
 		
 		$skeleton = new Skeleton();
 		$skeleton->useGlobal();
+		$skeleton->enableKnot();
 		$skeleton->set(IValidationLoader::class, $this);
+		
+		$this->skeleton = $skeleton;
 	}
 
 
-	public function invoke($object, $method, array $args = [])
+	/**
+	 * @param mixed|string $validator
+	 * @return mixed
+	 */
+	public function load($validator)
+	{
+		return $this->skeleton->load($validator);
+	}
+	
+	public function invoke($object, string $method, array $args = [])
 	{
 		$this->getNarrator($args)->invoke([$object, $method]);
 	}

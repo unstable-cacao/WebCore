@@ -2,6 +2,7 @@
 namespace WebCore\Validation;
 
 
+use Structura\Arrays;
 use WebCore\Base\Validation\IValidationLoader;
 
 
@@ -22,8 +23,8 @@ trait TValidator
 	}
 	
 	
-	private function invoke(array $args = [])
+	private function invoke($args = [])
 	{
-		return $this->_loader->invoke([$this, 'validate'], $args);
+		return $this->_loader->invoke($this, 'validate', Arrays::toArray($args));
 	}
 }

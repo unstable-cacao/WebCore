@@ -9,6 +9,7 @@ use WebCore\HTTP\Utilities;
 use WebCore\Base\HTTP\IRequestFiles;
 use WebCore\Inputs\FromArray;
 use WebCore\Exception\WebCoreFatalException;
+use WebCore\Validation\ValidationLoader;
 
 
 class StandardWebRequest implements IWebRequest
@@ -22,6 +23,9 @@ class StandardWebRequest implements IWebRequest
 	private $params		= null;
 	private $body		= null;
 	
+	/** @var ValidationLoader */
+	private $validation = null;
+
 
 	public function isMethod(string $method): bool { return $this->getMethod() == $method; }
 	public function isGet(): bool { return $this->getMethod() == Method::GET; }
@@ -161,6 +165,18 @@ class StandardWebRequest implements IWebRequest
 			throw new WebCoreFatalException('Request body is not a valid json');
 		
 		return $json;
+	}
+
+	/**
+	 * @param $validator
+	 * @return mixed
+	 */
+	public function getValidator($validator)
+	{
+		if (is_null($this->validation))
+			$this->validation = new ValidationLoader($this);
+		
+		return $this->validation->load($validator);
 	}
 	
 	

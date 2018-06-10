@@ -51,4 +51,10 @@ interface IWebRequest
 	
 	public function getBody(): string;
 	public function getJson(): array;
+
+	/**
+	 * @param $validator
+	 * @return mixed
+	 */
+	public function getValidator($validator);
 }
