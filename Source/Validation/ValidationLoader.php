@@ -11,6 +11,7 @@ use WebCore\IWebRequest;
 use WebCore\Base\Validation\IValidationLoader;
 use WebCore\Validation\Loader\InputLoader;
 use WebCore\Validation\Loader\ScalarLoader;
+use WebCore\Validation\Loader\SkeletonLoader;
 use WebCore\Validation\Loader\PassedParamsLoader;
 
 
@@ -37,11 +38,11 @@ class ValidationLoader implements IValidationLoader
 			
 			$this->narrator = new Narrator();
 			$this->narrator->params()
-				->fromSkeleton($this->skeleton)
 				->byType(IWebRequest::class, $this->request)
 				->addCallback([$this->paramsLoader, 'get'])
 				->addCallback([new InputLoader($this->request), 'get'])
-				->addCallback([new ScalarLoader($this->request), 'get']);
+				->addCallback([new ScalarLoader($this->request), 'get'])
+				->addCallback([new SkeletonLoader($this->skeleton), 'get']);
 		}
 		
 		$this->paramsLoader->setParams($args);

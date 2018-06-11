@@ -25,7 +25,7 @@ class InputLoader implements IParamsLoader
 		$class = $p->getClass();
 		$isFound = false;
 		
-		if (!$class || $class != IInput::class)
+		if (!$class || $class->getName() != IInput::class)
 			return null;
 		
 		$isFound = true;

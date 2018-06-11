@@ -25,8 +25,8 @@ class StandardWebRequest implements IWebRequest
 	
 	/** @var ValidationLoader */
 	private $validation = null;
-
-
+	
+	
 	public function isMethod(string $method): bool { return $this->getMethod() == $method; }
 	public function isGet(): bool { return $this->getMethod() == Method::GET; }
 	public function isPost(): bool { return $this->getMethod() == Method::POST; }
@@ -53,7 +53,7 @@ class StandardWebRequest implements IWebRequest
 	public function getQueryArray(): array { return $_GET; }
 	public function getQueryParam(string $param, ?string $default = null): ?string { return $_GET[$param] ?? $default; }
 	public function hasQueryParam(string $param): bool { return isset($_GET[$param]); } 
-
+	
 	public function getPost(): IInput { return new FromArray($this->getPostArray()); }
 	public function getPostArray(): array { return $_POST; }
 	public function getPostParam(string $param, ?string $default = null): ?string { return $_POST[$param] ?? $default; }
@@ -110,7 +110,7 @@ class StandardWebRequest implements IWebRequest
 		
 		return $this->params;
 	}
-
+	
 	public function getPort(): ?int
 	{
 		if (!isset($_SERVER['SERVER_PORT']))
@@ -118,17 +118,17 @@ class StandardWebRequest implements IWebRequest
 		
 		return (int)$_SERVER['SERVER_PORT'];
 	}
-
+	
 	public function getHost(): string
 	{
 		return $_SERVER['HTTP_HOST'] ?? '';
 	}
-
+	
 	public function getURI(): string
 	{
 		return $_SERVER['REQUEST_URI'] ?? '';
 	}
-
+	
 	public function getURL(): string
 	{
 		$protocol = $this->isHttp() ? 'http' : 'https';
@@ -141,13 +141,13 @@ class StandardWebRequest implements IWebRequest
 		// TODO:
 		return null;
 	}
-
+	
 	public function hasFiles(): bool
 	{
 		// TODO:
 		return false;
 	}
-
+	
 	public function getBody(): string
 	{
 		if (is_null($this->body))
@@ -155,7 +155,7 @@ class StandardWebRequest implements IWebRequest
 		
 		return $this->body;
 	}
-
+	
 	public function getJson(): array
 	{
 		$body = $this->getBody();
@@ -166,7 +166,7 @@ class StandardWebRequest implements IWebRequest
 		
 		return $json;
 	}
-
+	
 	/**
 	 * @param $validator
 	 * @return mixed
