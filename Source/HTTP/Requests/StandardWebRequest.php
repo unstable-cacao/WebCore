@@ -38,7 +38,7 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getHeaders(): IInput { return new FromArray($this->getHeadersArray()); }
 	public function getHeader(string $header, ?string $default = null): ?string { return $this->getHeaders()->string($header, $default); }
-	public function hasHeader(string $header): bool { return isset($this->getHeaders()[$header]); }
+	public function hasHeader(string $header): bool { return $this->getHeaders()->has($header); }
 	
 	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
 	public function getCookiesArray(): array { return $_COOKIE;	}
@@ -47,7 +47,7 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getParams(): IInput { return new FromArray($this->getParamsArray()); }
 	public function getParam(string $param, ?string $default = null): ?string { return $this->getParams()->string($param, $default); }
-	public function hasParam(string $param): bool { return isset($this->getParams()[$param]); }
+	public function hasParam(string $param): bool { return $this->getParams()->has($param); }
 	
 	public function getQuery(): IInput { return new FromArray($this->getQueryArray()); }
 	public function getQueryArray(): array { return $_GET; }
@@ -74,6 +74,11 @@ class StandardWebRequest implements IWebRequest
 			$this->isHttps = Utilities::isHTTPSRequest();
 		
 		return $this->isHttps;
+	}
+	
+	public function getUserAgent(?string $default = null): ?string
+	{
+		return Utilities\UserAgentExtractor::get($this, $default);
 	}
 	
 	public function getHeadersArray(): array

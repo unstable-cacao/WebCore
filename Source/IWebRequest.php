@@ -21,6 +21,9 @@ interface IWebRequest
 	public function getURI(): string;
 	public function getURL(): string;
 	
+	
+	public function getUserAgent(?string $default = null): ?string;
+	
 	public function getHeaders(): IInput;
 	public function getHeadersArray(): array;
 	public function getHeader(string $header, ?string $default = null): ?string;
