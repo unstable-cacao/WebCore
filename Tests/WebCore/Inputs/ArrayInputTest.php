@@ -495,6 +495,16 @@ class ArrayInputTest extends TestCase
 		
 		$subject->requireEnum(ArrayInputTestHelper_A::class);
 	}
+	
+	/**
+	 * @expectedException \WebCore\Exception\BadRequestException
+	 */
+	public function test_requireEnum_EnumValueNotExist_ExceptionThrown()
+	{
+		$subject = new ArrayInput(['c']);
+		
+		$subject->requireEnum(ArrayInputTestHelper_B::class);
+	}
 }
 
 
