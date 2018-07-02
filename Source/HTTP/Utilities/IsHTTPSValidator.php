@@ -18,11 +18,7 @@ class IsHTTPSValidator
 		if (!is_null(self::$isHttps))
 			return self::$isHttps;
 		
-		if (isset($_SERVER['SERVER_PROTOCOL']))
-		{
-			self::$isHttps = (strtolower(substr($_SERVER['SERVER_PROTOCOL'], 0, 5)) == 'https');
-		}
-		else if (isset($_SERVER['HTTPS']))
+		if (isset($_SERVER['HTTPS']))
 		{
 			self::$isHttps = (strtolower($_SERVER['HTTPS']) != 'off');
 		}
