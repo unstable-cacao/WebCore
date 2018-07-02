@@ -33,7 +33,7 @@ class StandardWebRequest implements IWebRequest
 	public function isPut(): bool { return $this->getMethod() == Method::PUT; }
 	public function isDelete(): bool { return $this->getMethod() == Method::DELETE; }
 	
-	public function isHttp(): bool { return !$this->$this->isHttps(); }
+	public function isHttp(): bool { return !$this->isHttps(); }
 	
 	
 	public function getHeaders(): IInput { return new FromArray($this->getHeadersArray()); }
