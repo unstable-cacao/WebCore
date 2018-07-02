@@ -63,7 +63,7 @@ class StandardWebRequest implements IWebRequest
 	public function getMethod(): string
 	{
 		if (is_null($this->method))
-			$this->method = $_SERVER['REQUEST_METHOD'];
+			$this->method = $_SERVER['REQUEST_METHOD'] ?? Method::UNKNOWN;
 		
 		return $this->method;
 	}
@@ -137,7 +137,7 @@ class StandardWebRequest implements IWebRequest
 	public function getURL(): string
 	{
 		$protocol = $this->isHttp() ? 'http' : 'https';
-		return "{$protocol}://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+		return "{$protocol}://" . $this->getHost() . $this->getURI();
 	}
 	
 	
