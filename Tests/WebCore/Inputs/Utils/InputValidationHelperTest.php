@@ -2,8 +2,8 @@
 namespace WebCore\Inputs\Utils;
 
 
-use Objection\TEnum;
 use PHPUnit\Framework\TestCase;
+use Traitor\TEnum;
 
 
 class InputValidationHelperTest extends TestCase

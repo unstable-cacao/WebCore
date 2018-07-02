@@ -2,7 +2,7 @@
 namespace WebCore;
 
 
-use Objection\TEnum;
+use Traitor\TEnum;
 
 
 class Method

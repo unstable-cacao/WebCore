@@ -2,8 +2,8 @@
 namespace WebCore\Inputs\Utils;
 
 
-use Objection\TEnum;
-use Objection\TStaticClass;
+use Traitor\TEnum;
+use Traitor\TStaticClass;
 
 
 class InputValidationHelper

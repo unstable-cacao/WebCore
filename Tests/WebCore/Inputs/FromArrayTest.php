@@ -2,8 +2,8 @@
 namespace WebCore\Inputs;
 
 
-use Objection\TEnum;
 use PHPUnit\Framework\TestCase;
+use Traitor\TEnum;
 
 
 class FromArrayTest extends TestCase

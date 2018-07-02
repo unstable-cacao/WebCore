@@ -2,7 +2,7 @@
 namespace WebCore\HTTP\Utilities;
 
 
-use Objection\TStaticClass;
+use Traitor\TStaticClass;
 
 
 class HeadersLoader

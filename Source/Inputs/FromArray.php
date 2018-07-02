@@ -2,7 +2,7 @@
 namespace WebCore\Inputs;
 
 
-use Objection\TEnum;
+use Traitor\TEnum;
 use WebCore\Exception\BadRequestException;
 use WebCore\Exception\WebCoreFatalException;
 use WebCore\IInput;

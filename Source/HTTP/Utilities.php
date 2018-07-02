@@ -2,7 +2,7 @@
 namespace WebCore\HTTP;
 
 
-use Objection\TStaticClass;
+use Traitor\TStaticClass;
 use WebCore\HTTP\Utilities\HeadersLoader;
 use WebCore\HTTP\Utilities\IsHTTPSValidator;
 

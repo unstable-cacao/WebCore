@@ -2,7 +2,7 @@
 namespace WebCore\Inputs\Utils;
 
 
-use Objection\TStaticClass;
+use Traitor\TStaticClass;
 
 
 class BooleanConverter
