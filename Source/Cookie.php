@@ -29,7 +29,7 @@ class Cookie extends LiteObject
 			'Path'			=> LiteSetup::createString(null),
 			'Domain'		=> LiteSetup::createString(null),
 			'Secure'		=> LiteSetup::createBool(false),
-			'ServerOnly'	=> LiteSetup::createString(false)
+			'ServerOnly'	=> LiteSetup::createBool(false)
 		];
 	}
 	
@@ -62,13 +62,13 @@ class Cookie extends LiteObject
 	}
 	
 	public static function create(
-		$name, 
-		$value = null, 
-		$expire = 0, 
-		$path = null, 
-		$domain = null, 
-		$secure = false, 
-		$serverOnly = false) : Cookie
+		string $name, 
+		?string $value = null, 
+		int $expire = 0, 
+		?string $path = null, 
+		?string $domain = null, 
+		bool $secure = false, 
+		bool $serverOnly = false) : Cookie
 	{
 		$cookie = new Cookie();
 		
