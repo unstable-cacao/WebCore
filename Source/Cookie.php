@@ -61,6 +61,28 @@ class Cookie extends LiteObject
 		return $this;
 	}
 	
+	public static function create(
+		$name, 
+		$value = null, 
+		$expire = 0, 
+		$path = null, 
+		$domain = null, 
+		$secure = false, 
+		$serverOnly = false) : Cookie
+	{
+		$cookie = new Cookie();
+		
+		$cookie->Name		= $name;
+		$cookie->Value		= $value; 
+		$cookie->Expire		= $expire; 
+		$cookie->Path		= $path; 
+		$cookie->Domain		= $domain; 
+		$cookie->Secure		= $secure; 
+		$cookie->ServerOnly	= $serverOnly; 
+		
+		return $cookie;
+	}
+	
 	
 	/**
 	 * @param Cookie[] $cookies
