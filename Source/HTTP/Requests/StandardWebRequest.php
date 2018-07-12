@@ -42,8 +42,8 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
 	public function getCookiesArray(): array { return $_COOKIE;	}
-	public function getCookie(string $cookie, ?string $default = null): ?string { return ($_COOKIE[$cookie] ?? $default); }
-	public function hasCookie(string $cookie): bool { return isset($_COOKIE[$cookie]); }
+	public function getCookie(string $cookie, ?string $default = null): ?string { return $this->getCookies()->string($cookie, $default); }
+	public function hasCookie(string $cookie): bool { return $this->getCookies()->has($cookie); }
 	
 	public function getParams(): IInput { return new FromArray($this->getParamsArray()); }
 	public function getParam(string $param, ?string $default = null): ?string { return $this->getParams()->string($param, $default); }
@@ -51,13 +51,13 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getQuery(): IInput { return new FromArray($this->getQueryArray()); }
 	public function getQueryArray(): array { return $_GET; }
-	public function getQueryParam(string $param, ?string $default = null): ?string { return $_GET[$param] ?? $default; }
-	public function hasQueryParam(string $param): bool { return isset($_GET[$param]); } 
+	public function getQueryParam(string $param, ?string $default = null): ?string { return $this->getQuery()->string($param, $default); }
+	public function hasQueryParam(string $param): bool { return $this->getQuery()->has($param); } 
 	
 	public function getPost(): IInput { return new FromArray($this->getPostArray()); }
 	public function getPostArray(): array { return $_POST; }
-	public function getPostParam(string $param, ?string $default = null): ?string { return $_POST[$param] ?? $default; }
-	public function hasPostParam(string $param): bool { return isset($_POST[$param]); }
+	public function getPostParam(string $param, ?string $default = null): ?string { return $this->getPost()->string($param, $default); }
+	public function hasPostParam(string $param): bool { return $this->getPost()->has($param); }
 	
 	
 	public function getMethod(): string
