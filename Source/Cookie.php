@@ -61,10 +61,20 @@ class Cookie extends LiteObject
 		return $this;
 	}
 	
+	/**
+	 * @param string $name
+	 * @param null|string $value
+	 * @param int|string $expire
+	 * @param null|string $path
+	 * @param null|string $domain
+	 * @param bool $secure
+	 * @param bool $serverOnly
+	 * @return Cookie
+	 */
 	public static function create(
 		string $name, 
 		?string $value = null, 
-		int $expire = 0, 
+		$expire = 0, 
 		?string $path = null, 
 		?string $domain = null, 
 		bool $secure = false, 
@@ -74,7 +84,7 @@ class Cookie extends LiteObject
 		
 		$cookie->Name		= $name;
 		$cookie->Value		= $value; 
-		$cookie->Expire		= $expire; 
+		$cookie->expireAt($expire); 
 		$cookie->Path		= $path; 
 		$cookie->Domain		= $domain; 
 		$cookie->Secure		= $secure; 
