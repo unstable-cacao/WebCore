@@ -31,7 +31,6 @@ interface IWebResponse
 		?string $domain = null,
 		bool $secure = false,
 		bool $serverOnly = false): void;
-	public function hasCookie(string $cookie): bool;
 	
 	public function setBody(string $body): void;
 	public function setBodyCallback(callable $callback): void;
