@@ -137,6 +137,24 @@ class DummyWebRequest implements IWebRequest
 		return $this->headers['HOST'] ?? '';
 	}
 	
+	public function getIP(): string
+	{
+		if ($this->hasHeader('HTTP_CLIENT_IP'))
+		{
+			$ip = $this->headers['HTTP_CLIENT_IP'];
+		}
+		else if ($this->hasHeader('HTTP_X_FORWARDED_FOR'))
+		{
+			$ip = $this->headers['HTTP_X_FORWARDED_FOR'];
+		}
+		else
+		{
+			$ip = $this->headers['REMOTE_ADDR'] ?? '';
+		}
+		
+		return $ip;
+	}
+	
 	public function getURI(): string
 	{
 		return $this->uri;

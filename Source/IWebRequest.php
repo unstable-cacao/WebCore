@@ -18,6 +18,7 @@ interface IWebRequest
 	public function isHttps(): bool;
 	public function getPort(): ?int;
 	public function getHost(): string;
+	public function getIP(): string;
 	public function getURI(): string;
 	public function getURL(): string;
 	
