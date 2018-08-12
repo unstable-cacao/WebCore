@@ -327,6 +327,13 @@ class StandardWebRequestTest extends TestCase
 		self::assertNull($subject->getUserAgent());
 	}
 	
+	public function test_getIP_ClientIPNotSet_ReturnDefault()
+	{
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('', $subject->getIP());
+	}
+	
 	public function test_getHeadersArray_MemberSet_ReturnMember()
 	{
 		$subject = new StandardWebRequest();

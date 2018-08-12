@@ -27,10 +27,12 @@ class HeadersLoaderTest extends TestCase
 	{
 		$_SERVER['CONTENT_LENGTH'] 	= 50;
 		$_SERVER['CONTENT_TYPE'] 	= 'TestType';
+		$_SERVER['REMOTE_ADDR'] 	= '1.1.1.1';
 		
 		self::assertEquals([
 			'CONTENT_LENGTH' 	=> 50,
-			'CONTENT_TYPE'		=> 'TestType'
+			'CONTENT_TYPE'		=> 'TestType',
+			'REMOTE_ADDR'		=> '1.1.1.1'
 		], HeadersLoader::getAllHeaders());
 	}
 	

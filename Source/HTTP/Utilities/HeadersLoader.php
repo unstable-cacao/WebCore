@@ -12,7 +12,8 @@ class HeadersLoader
 	
 	private const UNIQUE_HEADERS = [
         'CONTENT_LENGTH',
-        'CONTENT_TYPE'
+        'CONTENT_TYPE',
+		'REMOTE_ADDR'
     ];
 	
 	private static $headers = null;

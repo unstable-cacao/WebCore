@@ -24,6 +24,7 @@ class DummyWebRequest implements IWebRequest
 	private $body		= '';
 	private $port		= null;
 	private $userAgent	= null;
+	private $clientIp	= null;
 	private $uri		= '';
 	private $cookies	= [];
 	
@@ -137,22 +138,14 @@ class DummyWebRequest implements IWebRequest
 		return $this->headers['HOST'] ?? '';
 	}
 	
-	public function getIP(): string
+	public function getIP(?string $default = null): string
 	{
-		if ($this->hasHeader('HTTP_CLIENT_IP'))
-		{
-			$ip = $this->headers['HTTP_CLIENT_IP'];
-		}
-		else if ($this->hasHeader('HTTP_X_FORWARDED_FOR'))
-		{
-			$ip = $this->headers['HTTP_X_FORWARDED_FOR'];
-		}
-		else
-		{
-			$ip = $this->headers['REMOTE_ADDR'] ?? '';
-		}
-		
-		return $ip;
+		return $this->clientIp ?: '';
+	}
+	
+	public function setIP(?string $ip): void
+	{
+		$this->clientIp = $ip;
 	}
 	
 	public function getURI(): string

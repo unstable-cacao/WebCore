@@ -21,19 +21,7 @@ class UserAgentExtractorTest extends TestCase
 		$request = new StandardWebRequest();
 		$request->getHeaders();
 		
-		$_SERVER['HTTP_USER_AGENT'] = 'Test2';
-		
 		self::assertEquals('Test', UserAgentExtractor::get($request, 'Test3'));
-	}
-	
-	public function test_get_UserAgentInGlobal_ReturnUserAgent()
-	{
-		$request = new StandardWebRequest();
-		$request->getHeaders();
-		
-		$_SERVER['HTTP_USER_AGENT'] = 'Test2';
-		
-		self::assertEquals('Test2', UserAgentExtractor::get($request, 'Test3'));
 	}
 	
 	public function test_get_NoUserAgent_ReturnDefault()

@@ -129,22 +129,9 @@ class StandardWebRequest implements IWebRequest
 		return $_SERVER['HTTP_HOST'] ?? '';
 	}
 	
-	public function getIP(): string 
+	public function getIP(?string $default = null): string
 	{
-		if (!empty($_SERVER['HTTP_CLIENT_IP']))
-		{
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		}
-		else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}
-		else
-		{
-			$ip = $_SERVER['REMOTE_ADDR'] ?? '';
-		}
-		
-		return $ip;
+		return Utilities\UserIPExtractor::get($this, $default) ?: '';
 	}
 	
 	public function getURI(): string

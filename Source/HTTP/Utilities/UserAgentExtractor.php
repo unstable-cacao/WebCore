@@ -16,9 +16,6 @@ class UserAgentExtractor
 		if ($request->hasHeader('USER_AGENT'))
 			return $request->getHeader('USER_AGENT');
 		
-		if (isset($_SERVER['HTTP_USER_AGENT']))
-			return $_SERVER['HTTP_USER_AGENT'];
-		
 		return $default;
 	}
 }
