@@ -45,6 +45,9 @@ interface IWebRequest
 	public function getQueryParam(string $param, ?string $default = null): ?string;
 	public function hasQueryParam(string $param): bool;
 	
+	public function getRequestParams(): IInput;
+	public function getRequestParamsArray(): array;
+	
 	public function getPost(): IInput;
 	public function getPostArray(): array;
 	public function getPostParam(string $param, ?string $default = null): ?string;

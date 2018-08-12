@@ -17,11 +17,12 @@ class StandardWebRequest implements IWebRequest
 	private static $current = null;
 	
 	
-	private $headers	= null;
-	private $isHttps	= null;
-	private $method		= null;
-	private $params		= null;
-	private $body		= null;
+	private $headers		= null;
+	private $isHttps		= null;
+	private $method			= null;
+	private $params			= null;
+	private $body			= null;
+	private $requestParams 	= null;
 	
 	/** @var ValidationLoader */
 	private $validation = null;
@@ -114,6 +115,21 @@ class StandardWebRequest implements IWebRequest
 		}
 		
 		return $this->params;
+	}
+	
+	public function getRequestParams(): IInput 
+	{
+		return new FromArray($this->getRequestParamsArray());
+	}
+	
+	public function getRequestParamsArray(): array 
+	{
+		if (is_null($this->requestParams))
+		{
+			$this->requestParams = array_merge($this->getPostArray(), $this->getQueryArray());
+		}
+		
+		return $this->requestParams;
 	}
 	
 	public function getPort(): ?int
