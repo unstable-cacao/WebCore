@@ -17,16 +17,17 @@ class DummyWebRequest implements IWebRequest
 	private static $current = null;
 	
 	
-	private $headers	= [];
-	private $isHttps	= false;
-	private $method		= Method::GET;
-	private $params		= [];
-	private $body		= '';
-	private $port		= null;
-	private $userAgent	= null;
-	private $clientIp	= null;
-	private $uri		= '';
-	private $cookies	= [];
+	private $headers		= [];
+	private $isHttps		= false;
+	private $method			= Method::GET;
+	private $params			= [];
+	private $requestParams 	= [];
+	private $body			= '';
+	private $port			= null;
+	private $userAgent		= null;
+	private $clientIp		= null;
+	private $uri			= '';
+	private $cookies		= [];
 	
 	/** @var IValidationLoader */
 	private $validation = null;
@@ -121,6 +122,26 @@ class DummyWebRequest implements IWebRequest
 	public function setParams(array $params): void
 	{
 		$this->params = $params;
+	}
+	
+	public function getRequestParams(): IInput
+	{
+		return new FromArray($this->getRequestParamsArray());
+	}
+	
+	public function setRequestParams(array $params): void
+	{
+		$this->requestParams = $params;
+	}
+	
+	public function getRequestParamsArray(): array
+	{
+		if (is_null($this->requestParams))
+		{
+			$this->requestParams = array_merge($this->getPostArray(), $this->getQueryArray());
+		}
+		
+		return $this->requestParams;
 	}
 	
 	public function getPort(): ?int
