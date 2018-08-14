@@ -22,6 +22,7 @@ class DummyWebRequest implements IWebRequest
 	private $method			= Method::GET;
 	private $params			= [];
 	private $requestParams 	= [];
+	private $routeParams	= [];
 	private $body			= '';
 	private $port			= null;
 	private $userAgent		= null;
@@ -114,6 +115,7 @@ class DummyWebRequest implements IWebRequest
 		$this->headers = $headers;
 	}
 	
+	
 	public function getParamsArray(): array
 	{
 		return $this->params;
@@ -153,6 +155,32 @@ class DummyWebRequest implements IWebRequest
 	{
 		return $this->getRequestParams()->has($param);
 	}
+	
+	public function setRouteParams(array $params): void
+	{
+		$this->requestParams = $params;
+	}
+	
+	public function getRouteParams(): IInput
+	{
+		return new FromArray($this->getRouteParamsArray());
+	}
+	
+	public function getRouteParamsArray(): array
+	{
+		return $this->routeParams;
+	}
+	
+	public function getRouteParam(string $param, ?string $default = null): ?string
+	{
+		return $this->getRouteParams()->string($param, $default);
+	}
+	
+	public function hasRouteParam(string $param): bool
+	{
+		return $this->getRouteParams()->has($param);
+	}
+	
 	
 	public function getPort(): ?int
 	{

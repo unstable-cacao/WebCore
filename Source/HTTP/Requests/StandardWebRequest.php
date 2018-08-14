@@ -23,6 +23,7 @@ class StandardWebRequest implements IWebRequest
 	private $params			= null;
 	private $body			= null;
 	private $requestParams 	= null;
+	private $routeParams	= [];
 	
 	/** @var ValidationLoader */
 	private $validation = null;
@@ -141,6 +142,33 @@ class StandardWebRequest implements IWebRequest
 	{ 
 		return $this->getRequestParams()->has($param); 
 	}
+	
+	
+	public function setRouteParams(array $params): void
+	{
+		$this->requestParams = $params;
+	}
+	
+	public function getRouteParams(): IInput
+	{
+		return new FromArray($this->getRouteParamsArray());
+	}
+	
+	public function getRouteParamsArray(): array
+	{
+		return $this->routeParams;
+	}
+	
+	public function getRouteParam(string $param, ?string $default = null): ?string
+	{
+		return $this->getRouteParams()->string($param, $default);
+	}
+	
+	public function hasRouteParam(string $param): bool
+	{
+		return $this->getRouteParams()->has($param);
+	}
+	
 	
 	public function getPort(): ?int
 	{

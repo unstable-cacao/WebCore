@@ -50,6 +50,11 @@ interface IWebRequest
 	public function getRequestParam(string $param, ?string $default = null): ?string;
 	public function hasRequestParam(string $param): bool;
 	
+	public function getRouteParams(): IInput;
+	public function getRouteParamsArray(): array;
+	public function getRouteParam(string $param, ?string $default = null): ?string;
+	public function hasRouteParam(string $param): bool;
+	
 	public function getPost(): IInput;
 	public function getPostArray(): array;
 	public function getPostParam(string $param, ?string $default = null): ?string;
