@@ -132,6 +132,16 @@ class StandardWebRequest implements IWebRequest
 		return $this->requestParams;
 	}
 	
+	public function getRequestParam(string $param, ?string $default = null): ?string 
+	{ 
+		return $this->getRequestParams()->string($param, $default);
+	}
+	
+	public function hasRequestParam(string $param): bool 
+	{ 
+		return $this->getRequestParams()->has($param); 
+	}
+	
 	public function getPort(): ?int
 	{
 		if (!isset($_SERVER['SERVER_PORT']))
