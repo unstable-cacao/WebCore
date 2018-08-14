@@ -127,7 +127,7 @@ class StandardWebRequest implements IWebRequest
 	{
 		if (is_null($this->requestParams))
 		{
-			$this->requestParams = array_merge($this->getPostArray(), $this->getQueryArray());
+			$this->requestParams = array_merge($this->getPostArray(), $this->getQueryArray(), $this->getRouteParamsArray());
 		}
 		
 		return $this->requestParams;
