@@ -146,7 +146,7 @@ class StandardWebRequest implements IWebRequest
 	
 	public function setRouteParams(array $params): void
 	{
-		$this->requestParams = $params;
+		$this->routeParams = $params;
 	}
 	
 	public function getRouteParams(): IInput
