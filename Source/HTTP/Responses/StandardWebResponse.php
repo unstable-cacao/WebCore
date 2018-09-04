@@ -8,6 +8,8 @@ use WebCore\IWebResponse;
 
 class StandardWebResponse implements IWebResponse
 {
+	private $isHeaderOverride = true;
+	
 	private $headers 	= [];
 	
 	/** @var Cookie[] */
@@ -18,6 +20,16 @@ class StandardWebResponse implements IWebResponse
 	/** @var callable|null */
 	private $callback 	= null;
 	
+	
+	public function setIsHeaderOverride(bool $isHeaderOverride): void
+	{
+		$this->isHeaderOverride = $isHeaderOverride;
+	}
+	
+	public function getIsHeaderOverride(): bool
+	{
+		return $this->isHeaderOverride;
+	}
 	
 	public function getHeaders(): array
 	{
@@ -31,12 +43,18 @@ class StandardWebResponse implements IWebResponse
 	
 	public function addHeaders(array $headers): void
 	{
-		$this->headers = array_merge($this->headers, $headers);
+		foreach ($headers as $headerName => $headerValue) 
+		{
+			$this->setHeader($headerName, $headerValue);
+		}
 	}
 	
-	public function setHeader(string $header, string $value): void
+	public function setHeader(string $header, ?string $value = null): void
 	{
-		$this->headers[$header] = $value;
+		if ($this->isHeaderOverride)
+			$this->headers[$header] = [$value];
+		else
+			$this->headers[$header][] = $value;
 	}
 	
 	public function hasHeader(string $header): bool
@@ -126,9 +144,15 @@ class StandardWebResponse implements IWebResponse
 	
 	public function apply(): void
 	{
-		foreach ($this->headers as $headerName => $headerValue)
+		foreach ($this->headers as $headerName => $headerValues)
 		{
-			header("$headerName: $headerValue");
+			foreach ($headerValues as $headerValue) 
+			{
+				if (is_null($headerValue))
+					header($headerName);
+				else
+					header("$headerName: $headerValue");
+			}
 		}
 		
 		foreach ($this->cookies as $cookie)

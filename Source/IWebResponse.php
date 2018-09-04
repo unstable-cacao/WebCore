@@ -6,7 +6,7 @@ interface IWebResponse
 {
 	public function setHeaders(array $headers): void;
 	public function addHeaders(array $headers): void;
-	public function setHeader(string $header, string $value): void;
+	public function setHeader(string $header, ?string $value = null): void;
 	public function hasHeader(string $header): bool;
 	
 	public function setCookies(array $cookies): void;
