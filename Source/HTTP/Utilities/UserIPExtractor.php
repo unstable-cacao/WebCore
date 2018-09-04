@@ -22,8 +22,8 @@ class UserIPExtractor
 			return trim($ips[0]);
 		}
 		
-		if ($request->hasHeader('REMOTE_ADDR'))
-			return $request->getHeader('REMOTE_ADDR');
+		if (isset($_SERVER['REMOTE_ADDR']))
+			return $_SERVER['REMOTE_ADDR'];
 		
 		return $default;
 	}
