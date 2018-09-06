@@ -17,7 +17,7 @@ class UserAgentExtractorTest extends TestCase
 	
 	public function test_get_UserAgentInRequestHeader_ReturnUserAgent()
 	{
-		$_SERVER['HTTP_USER_AGENT'] = 'Test';
+		$_SERVER['HTTP_User-Agent'] = 'Test';
 		$request = new StandardWebRequest();
 		$request->getHeaders();
 		

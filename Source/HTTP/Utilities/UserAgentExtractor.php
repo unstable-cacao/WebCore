@@ -13,8 +13,8 @@ class UserAgentExtractor
 	
 	public static function get(IWebRequest $request, ?string $default): ?string 
 	{
-		if ($request->hasHeader('USER_AGENT'))
-			return $request->getHeader('USER_AGENT');
+		if ($request->hasHeader('User-Agent'))
+			return $request->getHeader('User-Agent');
 		
 		return $default;
 	}
