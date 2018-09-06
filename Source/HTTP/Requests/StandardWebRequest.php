@@ -214,8 +214,15 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getBody(): string
 	{
-		if (is_null($this->body))
-			$this->body = stream_get_contents(STDIN);
+		if (is_null($this->body)) 
+		{
+			if (!defined('STDIN'))
+				$source = fopen('php://stdin', 'r');
+			else
+				$source = STDIN;
+			
+			$this->body = stream_get_contents($source);
+		}
 		
 		return $this->body;
 	}
