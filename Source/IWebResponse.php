@@ -39,4 +39,6 @@ interface IWebResponse
 	 * @param array|int|double|bool|string $body
 	 */
 	public function setJSON($body): void;
+	
+	public function apply(): void;
 }
