@@ -8,14 +8,14 @@ use WebCore\IWebResponse;
 
 class StandardWebResponse implements IWebResponse
 {
-	private $isHeaderOverride = true;
-	
-	private $headers 	= [];
+	private $isHeaderOverride	= true;
+	private $headers 			= [];
+	private $body 				= null;
+	private $code				= 200;
 	
 	/** @var Cookie[] */
 	private $cookies 	= [];
 	
-	private $body 		= '';
 	
 	/** @var callable|null */
 	private $callback 	= null;
@@ -34,6 +34,12 @@ class StandardWebResponse implements IWebResponse
 	public function getHeaders(): array
 	{
 		return $this->headers;
+	}
+	
+	
+	public function setCode(int $code): void
+	{
+		$this->code = $code;
 	}
 	
 	public function setHeaders(array $headers): void
@@ -113,7 +119,7 @@ class StandardWebResponse implements IWebResponse
 		return isset($this->cookies[$cookie]);
 	}
 	
-	public function getBody(): string
+	public function getBody(): ?string
 	{
 		if ($this->callback)
 		{
@@ -144,6 +150,8 @@ class StandardWebResponse implements IWebResponse
 	
 	public function apply(): void
 	{
+		http_response_code($this->code);
+		
 		foreach ($this->headers as $headerName => $headerValues)
 		{
 			foreach ($headerValues as $headerValue) 

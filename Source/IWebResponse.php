@@ -4,6 +4,8 @@ namespace WebCore;
 
 interface IWebResponse
 {
+	public function setCode(int $code): void;
+	
 	public function setHeaders(array $headers): void;
 	public function addHeaders(array $headers): void;
 	public function setHeader(string $header, ?string $value = null): void;
