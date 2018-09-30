@@ -160,6 +160,9 @@ class StandardWebResponse implements IWebResponse
 			$cookie->apply();
 		}
 		
-		echo $this->getBody();
+		if ($this->body)
+		{
+			echo $this->getBody();
+		}
 	}
 }
