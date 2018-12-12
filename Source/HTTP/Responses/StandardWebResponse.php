@@ -150,7 +150,10 @@ class StandardWebResponse implements IWebResponse
 	
 	public function apply(): void
 	{
-		http_response_code($this->code);
+		if (http_response_code() != $this->code)
+		{
+			http_response_code($this->code);
+		}
 		
 		foreach ($this->headers as $headerName => $headerValues)
 		{
