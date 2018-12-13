@@ -143,7 +143,7 @@ class StandardWebResponse implements IWebResponse
 	
 	public function hasBody(): bool
 	{
-		return (bool)$this->getBody();
+		return $this->callback || $this->body;
 	}
 	
 	public function getBody(): ?string
