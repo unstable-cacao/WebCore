@@ -43,4 +43,25 @@ class CookieTest extends TestCase
 		self::assertNull($cookie->Value);
 		self::assertTrue($cookie->Expire < time());
 	}
+	
+	public function test_apply()
+	{
+		$cookie = new Cookie();
+		$cookie->Name = 'testCookie';
+		
+		$cookie->apply();
+		
+		self::assertTrue(true);
+	}
+	
+	public function test_applyAll()
+	{
+		$cookieMock1 = $this->getMockBuilder(Cookie::class)->getMock();
+		$cookieMock1->expects($this->once())->method('apply');
+		
+		$cookieMock2 = $this->getMockBuilder(Cookie::class)->getMock();
+		$cookieMock2->expects($this->once())->method('apply');
+		
+		Cookie::applyAll([$cookieMock1, $cookieMock2]);
+	}
 }
