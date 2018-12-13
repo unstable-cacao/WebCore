@@ -42,6 +42,11 @@ class StandardWebResponse implements IWebResponse
 		$this->code = $code;
 	}
 	
+	public function getCode(): int
+	{
+		return $this->code;
+	}
+	
 	public function setHeaders(array $headers): void
 	{
 		$this->headers = $headers;
@@ -136,12 +141,18 @@ class StandardWebResponse implements IWebResponse
 		return isset($this->cookies[$cookie]);
 	}
 	
+	public function hasBody(): bool
+	{
+		return (bool)$this->getBody();
+	}
+	
 	public function getBody(): ?string
 	{
 		if ($this->callback)
 		{
 			$callback = $this->callback;
-			return $callback();
+			$this->body = $callback();
+			$this->callback = null;
 		}
 		
 		return $this->body;
