@@ -114,6 +114,23 @@ class StandardWebResponse implements IWebResponse
 		$this->setCookie(Cookie::create($name, $value, $expire, $path, $domain, $secure, $serverOnly));
 	}
 	
+	/**
+	 * @param string $name
+	 * @param null|string $path
+	 * @param null|string $domain
+	 * @param bool $secure
+	 * @param bool $serverOnly
+	 */
+	public function deleteCookie(
+		string $name,
+		?string $path = null,
+		?string $domain = null,
+		bool $secure = false,
+		bool $serverOnly = false): void
+	{
+		$this->setCookie(Cookie::delete($name, $path, $domain, $secure, $serverOnly));
+	}
+	
 	public function hasCookie(string $cookie): bool
 	{
 		return isset($this->cookies[$cookie]);

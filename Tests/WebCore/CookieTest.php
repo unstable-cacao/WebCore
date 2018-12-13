@@ -32,4 +32,15 @@ class CookieTest extends TestCase
 		self::assertInstanceOf(Cookie::class, $cookie);
 		self::assertEquals($cookieName, $cookie->Name);
 	}
+	
+	public function test_delete_ReturnDeletedCookie()
+	{
+		$cookieName = 'Test';
+		$cookie = Cookie::delete($cookieName);
+		
+		self::assertInstanceOf(Cookie::class, $cookie);
+		self::assertEquals($cookieName, $cookie->Name);
+		self::assertNull($cookie->Value);
+		self::assertTrue($cookie->Expire < time());
+	}
 }

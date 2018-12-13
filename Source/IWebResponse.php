@@ -34,6 +34,20 @@ interface IWebResponse
 		bool $secure = false,
 		bool $serverOnly = false): void;
 	
+	/**
+	 * @param string $name
+	 * @param null|string $path
+	 * @param null|string $domain
+	 * @param bool $secure
+	 * @param bool $serverOnly
+	 */
+	public function deleteCookie(
+		string $name,
+		?string $path = null,
+		?string $domain = null,
+		bool $secure = false,
+		bool $serverOnly = false): void;
+	
 	public function setBody(string $body): void;
 	public function setBodyCallback(callable $callback): void;
 	
