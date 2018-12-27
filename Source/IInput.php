@@ -7,6 +7,41 @@ use WebCore\Inputs\ArrayInput;
 
 interface IInput
 {
+	public function withLength(int $length, ?int $max = null): IInput;
+	public function withExactLength(int $length): IInput;
+	
+	/**
+	 * @param int|float $a
+	 * @param int|float $b
+	 * @return IInput
+	 */
+	public function between($a, $b): IInput;
+	
+	/**
+	 * @param int|float $a
+	 * @return IInput
+	 */
+	public function greaterThen($a): IInput;
+	
+	/**
+	 * @param int|float $a
+	 * @return IInput
+	 */
+	public function lessThen($a): IInput;
+	
+	/**
+	 * @param int|float $a
+	 * @return IInput
+	 */
+	public function greaterOrEqualThen($a): IInput;
+	
+	/**
+	 * @param int|float $a
+	 * @return IInput
+	 */
+	public function lessOrEqualThen($a): IInput;
+	
+	
 	public function has(string $name): bool;
 	public function isInt(string $name): bool;
 	public function isFloat(string $name): bool;
