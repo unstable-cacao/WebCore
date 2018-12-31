@@ -2,14 +2,12 @@
 namespace WebCore\HTTP\Requests;
 
 
-use WebCore\Base\HTTP\IRequestFiles;
-use WebCore\Base\Validation\IValidationLoader;
-use WebCore\Exception\WebCoreFatalException;
-use WebCore\IInput;
-use WebCore\Inputs\FromArray;
-use WebCore\IWebRequest;
 use WebCore\Method;
-use WebCore\Validation\ValidationLoader;
+use WebCore\IInput;
+use WebCore\IWebRequest;
+use WebCore\Base\HTTP\IRequestFiles;
+use WebCore\Inputs\FromArray;
+use WebCore\Exception\WebCoreFatalException;
 
 
 class DummyWebRequest implements IWebRequest
@@ -29,9 +27,6 @@ class DummyWebRequest implements IWebRequest
 	private $clientIp		= null;
 	private $uri			= '';
 	private $cookies		= [];
-	
-	/** @var IValidationLoader */
-	private $validation = null;
 	
 	
 	public function __construct(array $params = [], array $headers = [])
@@ -223,6 +218,11 @@ class DummyWebRequest implements IWebRequest
 		return "{$protocol}://" . $this->getHost() . $this->getURI();
 	}
 	
+	public function getPath(): string
+	{
+		return explode('?', explode('#', $this->uri, 2)[0], 2)[0];
+	}
+	
 	
 	public function files(): ?IRequestFiles
 	{
@@ -255,18 +255,6 @@ class DummyWebRequest implements IWebRequest
 			throw new WebCoreFatalException('Request body is not a valid json');
 		
 		return $json;
-	}
-	
-	/**
-	 * @param $validator
-	 * @return mixed
-	 */
-	public function getValidator($validator)
-	{
-		if (is_null($this->validation))
-			$this->validation = new ValidationLoader($this);
-		
-		return $this->validation->load($validator);
 	}
 	
 	

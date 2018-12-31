@@ -2,11 +2,11 @@
 namespace WebCore\Validation\Loader;
 
 
+use Narrator\INarrator;
 use WebCore\IWebRequest;
-use WebCore\Base\Validation\IParamsLoader;
 
 
-class ScalarLoader implements IParamsLoader
+class ScalarLoader
 {
 	/** @var IWebRequest */
 	private $request;
@@ -78,5 +78,11 @@ class ScalarLoader implements IParamsLoader
 		return $p->isOptional() ? 
 			$this->optional($p) : 
 			$this->strict($p);
+	}
+	
+	
+	public static function register(INarrator $narrator, IWebRequest $request): void
+	{
+		$narrator->params()->addCallback([new ScalarLoader($request), 'get']);
 	}
 }

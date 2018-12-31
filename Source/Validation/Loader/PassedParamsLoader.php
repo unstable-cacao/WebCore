@@ -2,10 +2,10 @@
 namespace WebCore\Validation\Loader;
 
 
-use WebCore\Base\Validation\IParamsLoader;
+use Narrator\INarrator;
 
 
-class PassedParamsLoader implements IParamsLoader
+class PassedParamsLoader
 {
 	/** @var array */
 	private $params;
@@ -31,5 +31,11 @@ class PassedParamsLoader implements IParamsLoader
 		$isFound = true;
 		
 		return $this->params[$index];
+	}
+	
+	
+	public static function register(INarrator $narrator, array $passedArgs): void
+	{
+		$narrator->params()->addCallback([new PassedParamsLoader($passedArgs), 'get']);
 	}
 }

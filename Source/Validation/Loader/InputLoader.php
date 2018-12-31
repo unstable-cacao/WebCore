@@ -2,13 +2,14 @@
 namespace WebCore\Validation\Loader;
 
 
-use WebCore\Base\Validation\IParamsLoader;
-use WebCore\Exception\UnexpectedInputParameterName;
+use Narrator\INarrator;
+
 use WebCore\IInput;
 use WebCore\IWebRequest;
+use WebCore\Exception\UnexpectedInputParameterName;
 
 
-class InputLoader implements IParamsLoader
+class InputLoader
 {
 	/** @var IWebRequest */
 	private $request;
@@ -48,10 +49,17 @@ class InputLoader implements IParamsLoader
 				return $this->request->getCookies();
 				
 			case 'params':
+			case 'input':
 				return $this->request->getParams();
 			
 			default:
 				throw new UnexpectedInputParameterName($p->getName());
 		}
+	}
+	
+	
+	public static function register(INarrator $narrator, IWebRequest $request): void
+	{
+		$narrator->params()->addCallback([new InputLoader($request), 'get']);
 	}
 }

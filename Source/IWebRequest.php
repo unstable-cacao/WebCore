@@ -21,6 +21,7 @@ interface IWebRequest
 	public function getIP(): string;
 	public function getURI(): string;
 	public function getURL(): string;
+	public function getPath(): string;
 	
 	
 	public function getUserAgent(?string $default = null): ?string;
@@ -66,10 +67,4 @@ interface IWebRequest
 	
 	public function getBody(): string;
 	public function getJson(): array;
-
-	/**
-	 * @param $validator
-	 * @return mixed
-	 */
-	public function getValidator($validator);
 }

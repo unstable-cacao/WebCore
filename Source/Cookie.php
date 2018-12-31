@@ -93,34 +93,6 @@ class Cookie extends LiteObject
 		return $cookie;
 	}
 	
-	/**
-	 * @param string $name
-	 * @param null|string $path
-	 * @param null|string $domain
-	 * @param bool $secure
-	 * @param bool $serverOnly
-	 * @return Cookie
-	 */
-	public static function delete(
-		string $name,
-		?string $path = null,
-		?string $domain = null,
-		bool $secure = false,
-		bool $serverOnly = false) : Cookie
-	{
-		$cookie = new Cookie();
-		
-		$cookie->Name		= $name;
-		$cookie->Value		= null;
-		$cookie->expireAt(time() - 60);
-		$cookie->Path		= $path;
-		$cookie->Domain		= $domain;
-		$cookie->Secure		= $secure;
-		$cookie->ServerOnly	= $serverOnly;
-		
-		return $cookie;
-	}
-	
 	
 	/**
 	 * @param Cookie[] $cookies

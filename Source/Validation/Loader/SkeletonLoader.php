@@ -6,10 +6,10 @@ use Skeleton\Base\ISkeletonSource;
 use Skeleton\Exceptions\ImplementerNotDefinedException;
 
 use WebCore\IInput;
-use WebCore\Base\Validation\IParamsLoader;
+use Narrator\INarrator;
 
 
-class SkeletonLoader implements IParamsLoader
+class SkeletonLoader
 {
 	/** @var ISkeletonSource */
 	private $skeleton;
@@ -39,5 +39,11 @@ class SkeletonLoader implements IParamsLoader
 			$isFound = false;
 			return null;
 		}
+	}
+	
+	
+	public static function register(INarrator $narrator, ISkeletonSource $skeleton): void
+	{
+		$narrator->params()->addCallback([new SkeletonLoader($skeleton), 'get']);
 	}
 }
