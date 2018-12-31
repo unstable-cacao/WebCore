@@ -231,7 +231,7 @@ class FromArray implements IInput
 	
 	public function float(string $name, ?float $default = null): ?float 
 	{
-		return ($this->isFloat($name) && (float)$this->source[$name]) ? (float)$this->source[$name] : $default;
+		return ($this->isFloat($name) && $this->isMatchRange((float)$this->source[$name])) ? (float)$this->source[$name] : $default;
 	}
 	
 	public function regex(string $name, string $regex, ?string $default = null): ?string
