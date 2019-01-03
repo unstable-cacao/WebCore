@@ -42,7 +42,7 @@ class StandardWebResponse implements IWebResponse
 		$this->code = $code;
 	}
 	
-	public function getCode(): int 
+	public function getCode(): int
 	{
 		return $this->code;
 	}
@@ -86,6 +86,23 @@ class StandardWebResponse implements IWebResponse
 	public function addCookies(array $cookies): void
 	{
 		$this->cookies = array_merge($this->cookies, $cookies);
+	}
+	
+	/**
+	 * @param string $name
+	 * @param null|string $path
+	 * @param null|string $domain
+	 * @param bool $secure
+	 * @param bool $serverOnly
+	 */
+	public function deleteCookie(
+		string $name,
+		?string $path = null,
+		?string $domain = null,
+		bool $secure = false,
+		bool $serverOnly = false): void
+	{
+		$this->setCookie(Cookie::delete($name, $path, $domain, $secure, $serverOnly));
 	}
 	
 	public function setCookieByName(string $cookie, string $value): void
@@ -134,7 +151,8 @@ class StandardWebResponse implements IWebResponse
 		if ($this->callback)
 		{
 			$callback = $this->callback;
-			return $callback();
+			$this->body = $callback();
+			$this->callback = null;
 		}
 		
 		return $this->body;

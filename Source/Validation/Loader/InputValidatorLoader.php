@@ -44,7 +44,8 @@ class InputValidatorLoader
 		}
 		else 
 		{
-			$item = $this->skeleton->load($class->newInstance());
+			$item = $this->narrator->invokeCreateInstance($class);
+			$this->skeleton->load($item);
 		}
 		
 		if ($item instanceof InputValidator)

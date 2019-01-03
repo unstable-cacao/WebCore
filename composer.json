@@ -22,7 +22,7 @@
 		"oktopost/objection": "^1.0",
 		"oktopost/skeleton": "^1.1",
 		"oktopost/jsonencode": "^1.0",
-		"unstable-cacao/narrator": "^1.0",
+		"unstable-cacao/narrator": "^1.2",
 		"unstable-cacao/structura": "^1.0"
 	},
     "require-dev": {

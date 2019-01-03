@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2fa0f9c27111493f1026564db6fbd18",
+    "content-hash": "2bec5901dca60e1dea5b51d2f2982707",
     "packages": [
         {
             "name": "oktopost/jsonencode",
@@ -145,16 +145,16 @@
         },
         {
             "name": "unstable-cacao/narrator",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/unstable-cacao/Narrator.git",
-                "reference": "a22d0d3174f33a8574a1e2edc1b845ede0e3cd19"
+                "reference": "5a9d9a22b9a51cac81b6e1eb7abf378d6c72fe43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/unstable-cacao/Narrator/zipball/a22d0d3174f33a8574a1e2edc1b845ede0e3cd19",
-                "reference": "a22d0d3174f33a8574a1e2edc1b845ede0e3cd19",
+                "url": "https://api.github.com/repos/unstable-cacao/Narrator/zipball/5a9d9a22b9a51cac81b6e1eb7abf378d6c72fe43",
+                "reference": "5a9d9a22b9a51cac81b6e1eb7abf378d6c72fe43",
                 "shasum": ""
             },
             "require": {
@@ -181,7 +181,7 @@
                     "email": "marinashers@gmail.com"
                 }
             ],
-            "time": "2018-12-28T18:13:05+00:00"
+            "time": "2018-12-31T06:25:21+00:00"
         },
         {
             "name": "unstable-cacao/structura",
