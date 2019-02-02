@@ -24,35 +24,116 @@ class StandardWebRequest implements IWebRequest
 	private $routeParams	= [];
 	
 	
-	public function isMethod(string $method): bool { return $this->getMethod() == $method; }
-	public function isGet(): bool { return $this->getMethod() == Method::GET; }
-	public function isPost(): bool { return $this->getMethod() == Method::POST; }
-	public function isPut(): bool { return $this->getMethod() == Method::PUT; }
-	public function isDelete(): bool { return $this->getMethod() == Method::DELETE; }
+	public function isMethod(string $method): bool 
+	{ 
+		return $this->getMethod() == $method; 
+	}
 	
-	public function isHttp(): bool { return !$this->isHttps(); }
+	public function isGet(): bool 
+	{ 
+		return $this->getMethod() == Method::GET; 
+	}
+	
+	public function isPost(): bool 
+	{ 
+		return $this->getMethod() == Method::POST; 
+	}
+	
+	public function isPut(): bool 
+	{ 
+		return $this->getMethod() == Method::PUT; 
+	}
+	
+	public function isDelete(): bool 
+	{ 
+		return $this->getMethod() == Method::DELETE; 
+	}
+	
+	public function isHttp(): bool 
+	{ 
+		return !$this->isHttps(); 
+	}
 	
 	
-	public function getHeaders(bool $caseSensitive = false): IInput { return new FromArray($this->getHeadersArray($caseSensitive)); }
+	public function getHeaders(bool $caseSensitive = false): IInput 
+	{ 
+		return new FromArray($this->getHeadersArray($caseSensitive)); 
+	}
 	
-	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
-	public function getCookiesArray(): array { return $_COOKIE;	}
-	public function getCookie(string $cookie, ?string $default = null): ?string { return $this->getCookies()->string($cookie, $default); }
-	public function hasCookie(string $cookie): bool { return $this->getCookies()->has($cookie); }
+	public function getCookies(): IInput 
+	{ 
+		return new FromArray($this->getCookiesArray()); 
+	}
 	
-	public function getParams(): IInput { return new FromArray($this->getParamsArray()); }
-	public function getParam(string $param, ?string $default = null): ?string { return $this->getParams()->string($param, $default); }
-	public function hasParam(string $param): bool { return $this->getParams()->has($param); }
+	public function getCookiesArray(): array 
+	{ 
+		return $_COOKIE;	
+	}
 	
-	public function getQuery(): IInput { return new FromArray($this->getQueryArray()); }
-	public function getQueryArray(): array { return $_GET; }
-	public function getQueryParam(string $param, ?string $default = null): ?string { return $this->getQuery()->string($param, $default); }
-	public function hasQueryParam(string $param): bool { return $this->getQuery()->has($param); } 
+	public function getCookie(string $cookie, ?string $default = null): ?string 
+	{ 
+		return $this->getCookies()->string($cookie, $default); 
+	}
 	
-	public function getPost(): IInput { return new FromArray($this->getPostArray()); }
-	public function getPostArray(): array { return $_POST; }
-	public function getPostParam(string $param, ?string $default = null): ?string { return $this->getPost()->string($param, $default); }
-	public function hasPostParam(string $param): bool { return $this->getPost()->has($param); }
+	public function hasCookie(string $cookie): bool 
+	{ 
+		return $this->getCookies()->has($cookie); 
+	}
+	
+	public function getParams(): IInput 
+	{ 
+		return new FromArray($this->getParamsArray()); 
+	}
+	
+	public function getParam(string $param, ?string $default = null): ?string 
+	{ 
+		return $this->getParams()->string($param, $default); 
+	}
+	
+	public function hasParam(string $param): bool 
+	{ 
+		return $this->getParams()->has($param); 
+	}
+	
+	public function getQuery(): IInput 
+	{ 
+		return new FromArray($this->getQueryArray()); 
+	}
+	
+	public function getQueryArray(): array 
+	{ 
+		return $_GET; 
+	}
+	
+	public function getQueryParam(string $param, ?string $default = null): ?string 
+	{ 
+		return $this->getQuery()->string($param, $default); 
+	}
+	
+	public function hasQueryParam(string $param): bool 
+	{ 
+		return $this->getQuery()->has($param); 
+	} 
+	
+	public function getPost(): IInput 
+	{ 
+		return new FromArray($this->getPostArray()); 
+	}
+	
+	public function getPostArray(): array 
+	{ 
+		return $_POST; 
+	}
+	
+	public function getPostParam(string $param, ?string $default = null): ?string 
+	{ 
+		return $this->getPost()->string($param, $default); 
+	}
+	
+	public function hasPostParam(string $param): bool 
+	{ 
+		return $this->getPost()->has($param); 
+	}
 	
 	
 	public function getMethod(): string
