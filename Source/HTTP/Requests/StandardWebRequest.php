@@ -78,7 +78,7 @@ class StandardWebRequest implements IWebRequest
 	
 	public function getHeader(string $header, ?string $default = null, bool $caseSensitive = false): ?string
 	{
-		if ($caseSensitive)
+		if (!$caseSensitive)
 			$header = strtolower($header);
 		
 		$headers = Utilities::getAllHeaders($caseSensitive);
@@ -87,7 +87,7 @@ class StandardWebRequest implements IWebRequest
 	
 	public function hasHeader(string $header, bool $caseSensitive = false): bool
 	{
-		if ($caseSensitive)
+		if (!$caseSensitive)
 			$header = strtolower($header);
 		
 		return key_exists($header, Utilities::getAllHeaders($caseSensitive));

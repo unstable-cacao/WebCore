@@ -45,9 +45,27 @@ class DummyWebRequest implements IWebRequest
 	public function isHttp(): bool { return !$this->isHttps(); }
 	
 	
-	public function getHeaders(): IInput { return new FromArray($this->getHeadersArray()); }
-	public function getHeader(string $header, ?string $default = null): ?string { return $this->getHeaders()->string($header, $default); }
-	public function hasHeader(string $header): bool { return $this->getHeaders()->has($header); }
+	public function getHeaders(bool $caseSensitive = false): IInput 
+	{ 
+		return new FromArray($this->getHeadersArray($caseSensitive)); 
+	}
+	
+	public function getHeader(string $header, ?string $default = null, bool $caseSensitive = false): ?string 
+	{ 
+		if (!$caseSensitive)
+			$header = strtolower($header);
+		
+		$headers = $this->getHeadersArray($caseSensitive);
+		return $headers[$header] ?? $default; 
+	}
+	
+	public function hasHeader(string $header, bool $caseSensitive = false): bool 
+	{
+		if (!$caseSensitive)
+			$header = strtolower($header);
+		
+		return key_exists($header, $this->getHeadersArray($caseSensitive));
+	}
 	
 	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
 	public function getCookiesArray(): array { return $this->cookies; }
@@ -100,9 +118,23 @@ class DummyWebRequest implements IWebRequest
 		$this->userAgent = $userAgent;
 	}
 	
-	public function getHeadersArray(): array
+	public function getHeadersArray(bool $caseSensitive = false): array
 	{
-		return $this->headers;
+		if ($caseSensitive)
+		{
+			return $this->headers;
+		} 
+		else 
+		{
+			$result = [];
+			
+			foreach ($this->headers as $header => $value)
+			{
+				$result[strtolower($header)] = $value;
+			}
+			
+			return $result;
+		}
 	}
 	
 	public function setHeaders(array $headers): void

@@ -344,7 +344,7 @@ class StandardWebRequestTest extends TestCase
 		
 		$_SERVER = [];
 		
-		self::assertEquals(['HEADER' => 1], $subject->getHeadersArray());
+		self::assertEquals(['HEADER' => 1], $subject->getHeadersArray(true));
 	}
 	
 	public function test_getHeadersArray_MemberNotSet_ReturnFromGlobal()
@@ -352,7 +352,7 @@ class StandardWebRequestTest extends TestCase
 		$subject = new StandardWebRequest();
 		$_SERVER['HTTP_HEADER'] = 1;
 		
-		self::assertEquals(['HEADER' => 1], $subject->getHeadersArray());
+		self::assertEquals(['HEADER' => 1], $subject->getHeadersArray(true));
 	}
 	
 	public function test_getParamsArray_MemberSet_ReturnMember()

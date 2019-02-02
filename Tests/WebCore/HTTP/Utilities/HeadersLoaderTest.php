@@ -35,7 +35,7 @@ class HeadersLoaderTest extends TestCase
 			'CONTENT_LENGTH' 	=> 50,
 			'CONTENT_TYPE'		=> 'TestType',
 			'REMOTE_ADDR'		=> '1.1.1.1'
-		], HeadersLoader::getAllHeaders());
+		], HeadersLoader::getAllHeaders(true));
 	}
 	
 	public function test_getAllHeaders_ServerGlobalSet_StripHttpPrefix()
@@ -46,7 +46,7 @@ class HeadersLoaderTest extends TestCase
 		self::assertEquals([
 			'HEADER_A' => 'test',
 			'HEADER_B' => 555
-		], HeadersLoader::getAllHeaders());
+		], HeadersLoader::getAllHeaders(true));
 	}
 	
 	public function test_getAllHeaders_NoHeaders_ReturnEmptyArray()

@@ -21,7 +21,7 @@ class UserIPExtractorTest extends TestCase
 	{
 		$_SERVER['HTTP_CLIENT_IP'] = '1.1.1.1';
 		$request = new StandardWebRequest();
-		$request->getHeaders();
+		$request->getHeaders(true);
 		
 		self::assertEquals('1.1.1.1', UserIPExtractor::get($request, '2.2.2.2'));
 	}
@@ -30,7 +30,7 @@ class UserIPExtractorTest extends TestCase
 	{
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.1.1.1, 2.2.2.2';
 		$request = new StandardWebRequest();
-		$request->getHeaders();
+		$request->getHeaders(true);
 		
 		self::assertEquals('1.1.1.1', UserIPExtractor::get($request, '3.3.3.3'));
 	}
@@ -39,7 +39,7 @@ class UserIPExtractorTest extends TestCase
 	{
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '1.1.1.1';
 		$request = new StandardWebRequest();
-		$request->getHeaders();
+		$request->getHeaders(true);
 		
 		self::assertEquals('1.1.1.1', UserIPExtractor::get($request, '2.2.2.2'));
 	}
@@ -48,7 +48,7 @@ class UserIPExtractorTest extends TestCase
 	{
 		$_SERVER['REMOTE_ADDR'] = '1.1.1.1';
 		$request = new StandardWebRequest();
-		$request->getHeaders();
+		$request->getHeaders(true);
 		
 		self::assertEquals('1.1.1.1', UserIPExtractor::get($request, '2.2.2.2'));
 	}
