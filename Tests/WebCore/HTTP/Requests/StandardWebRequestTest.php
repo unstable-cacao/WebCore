@@ -16,7 +16,9 @@ class StandardWebRequestTest extends TestCase
 		$_SERVER = [];
 		$_GET = [];
 		$_POST = [];
-		resetStaticDataMember(HeadersLoader::class, 'headers');
+		
+		resetStaticDataMember(HeadersLoader::class, 'exactHeaders');
+		resetStaticDataMember(HeadersLoader::class, 'lowerCaseHeaders');
 		resetStaticDataMember(IsHTTPSValidator::class, 'isHttps');
 	}
 	

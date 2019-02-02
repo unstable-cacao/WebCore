@@ -16,27 +16,33 @@ class HeadersLoader
 		'REMOTE_ADDR'
     ];
 	
-	private static $headers = null;
+	
+	private static $exactHeaders = null;
+	private static $lowerCaseHeaders = null;
 	
 	
-	public static function getAllHeaders(): array 
+	public static function getAllHeaders(bool $caseSensitive = false): array 
 	{
-		if (!is_null(self::$headers))
-			return self::$headers;
+		if (!is_null(self::$exactHeaders))
+			return $caseSensitive ? self::$exactHeaders : self::$lowerCaseHeaders;
 		
 		if (function_exists('apache_request_headers'))
 		{
-			self::$headers = apache_request_headers();
+			self::$exactHeaders = apache_request_headers();
+			
 		}
 		else if (isset($_SERVER))
 		{
 			$headers = [];
+			$lowercaseHeaders = [];
 			
 			foreach ($_SERVER as $key => $value)
 			{
 				if (strlen($key) > 5 && substr($key, 0, 5) == 'HTTP_')
 				{
-					$headers[substr($key, 5)] = $value;
+					$key = substr($key, 5);
+					$headers[$key] = $value;
+					$lowercaseHeaders[strtolower($key)] = $value;
 				}
 			}
 			
@@ -45,16 +51,19 @@ class HeadersLoader
 				if (isset($_SERVER[$special]))
 				{
 					$headers[$special] = $_SERVER[$special];
+					$lowercaseHeaders[strtolower($special)] = $_SERVER[$special];
 				}
 			}
 			
-			self::$headers = $headers;
+			self::$exactHeaders = $headers;
+			self::$lowerCaseHeaders = $lowercaseHeaders;
 		}
 		else
 		{
-			self::$headers = [];
+			self::$exactHeaders = [];
+			self::$lowerCaseHeaders = [];
 		}
 		
-		return self::$headers;
+		return $caseSensitive ? self::$exactHeaders : self::$lowerCaseHeaders;
 	}
 }

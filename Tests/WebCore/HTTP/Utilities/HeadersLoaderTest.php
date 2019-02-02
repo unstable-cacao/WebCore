@@ -10,7 +10,9 @@ class HeadersLoaderTest extends TestCase
 	protected function setUp()
 	{
 		$_SERVER = [];
-		resetStaticDataMember(HeadersLoader::class, 'headers');
+		
+		resetStaticDataMember(HeadersLoader::class, 'exactHeaders');
+		resetStaticDataMember(HeadersLoader::class, 'lowerCaseHeaders');
 	}
 	
 	

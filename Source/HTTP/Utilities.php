@@ -12,9 +12,9 @@ class Utilities
 	use TStaticClass;
 	
 	
-	public static function getAllHeaders(): array
+	public static function getAllHeaders(bool $caseSensitive = false): array
 	{
-		return HeadersLoader::getAllHeaders();
+		return HeadersLoader::getAllHeaders($caseSensitive);
 	}
 	
 	public static function isHTTPSRequest(): bool

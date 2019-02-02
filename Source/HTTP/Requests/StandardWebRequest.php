@@ -16,7 +16,6 @@ class StandardWebRequest implements IWebRequest
 	private static $current = null;
 	
 	
-	private $headers		= null;
 	private $isHttps		= null;
 	private $method			= null;
 	private $params			= null;
@@ -34,9 +33,7 @@ class StandardWebRequest implements IWebRequest
 	public function isHttp(): bool { return !$this->isHttps(); }
 	
 	
-	public function getHeaders(): IInput { return new FromArray($this->getHeadersArray()); }
-	public function getHeader(string $header, ?string $default = null): ?string { return $this->getHeaders()->string($header, $default); }
-	public function hasHeader(string $header): bool { return $this->getHeaders()->has($header); }
+	public function getHeaders(bool $caseSensitive = false): IInput { return new FromArray($this->getHeadersArray($caseSensitive)); }
 	
 	public function getCookies(): IInput { return new FromArray($this->getCookiesArray()); }
 	public function getCookiesArray(): array { return $_COOKIE;	}
@@ -79,12 +76,26 @@ class StandardWebRequest implements IWebRequest
 		return Utilities\UserAgentExtractor::get($this, $default);
 	}
 	
-	public function getHeadersArray(): array
+	public function getHeader(string $header, ?string $default = null, bool $caseSensitive = false): ?string
 	{
-		if (is_null($this->headers))
-			$this->headers = Utilities::getAllHeaders();
+		if ($caseSensitive)
+			$header = strtolower($header);
 		
-		return $this->headers;
+		$headers = Utilities::getAllHeaders($caseSensitive);
+		return $headers[$header] ?? $default;
+	}
+	
+	public function hasHeader(string $header, bool $caseSensitive = false): bool
+	{
+		if ($caseSensitive)
+			$header = strtolower($header);
+		
+		return key_exists($header, Utilities::getAllHeaders($caseSensitive));
+	}
+	
+	public function getHeadersArray(bool $caseSensitive = false): array
+	{
+		return Utilities::getAllHeaders($caseSensitive);
 	}
 	
 	public function getParamsArray(): array

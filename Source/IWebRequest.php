@@ -26,10 +26,10 @@ interface IWebRequest
 	
 	public function getUserAgent(?string $default = null): ?string;
 	
-	public function getHeaders(): IInput;
-	public function getHeadersArray(): array;
-	public function getHeader(string $header, ?string $default = null): ?string;
-	public function hasHeader(string $header): bool;
+	public function getHeaders(bool $caseSensitive = false): IInput;
+	public function getHeadersArray(bool $caseSensitive = false): array;
+	public function getHeader(string $header, ?string $default = null, bool $caseSensitive = false): ?string;
+	public function hasHeader(string $header, bool $caseSensitive = false): bool;
 	
 	public function getCookies(): IInput;
 	public function getCookiesArray(): array;
