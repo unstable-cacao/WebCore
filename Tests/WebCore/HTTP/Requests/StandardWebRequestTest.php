@@ -374,6 +374,38 @@ class StandardWebRequestTest extends TestCase
 		self::assertEquals(['test' => 1], $subject->getParamsArray());
 	}
 	
+	public function test_getParamsArray_MemberSetPost_ReturnMember()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		
+		$subject = new StandardWebRequest();
+		$_POST['test'] = 1;
+		$subject->getParamsArray();
+		
+		$_POST = [];
+		
+		self::assertEquals(['test' => 1], $subject->getParamsArray());
+	}
+	
+	public function test_getParamsArray_MemberNotSetPost_ReturnFromGlobal()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		
+		$subject = new StandardWebRequest();
+		$_POST['test'] = 1;
+		
+		self::assertEquals(['test' => 1], $subject->getParamsArray());
+	}
+	
+	public function test_getParamsArray_PutRequest_ReturnFromBody()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		
+		$subject = resetInstanceDataMember(StandardWebRequest::class, 'body', 'test=1');
+		
+		self::assertEquals(['test' => 1], $subject->getParamsArray());
+	}
+	
 	public function test_getPort_NotSet_ReturnNull()
 	{
 		$subject = new StandardWebRequest();
@@ -410,5 +442,95 @@ class StandardWebRequestTest extends TestCase
 		
 		
 		self::assertEquals('http://test.com', $subject->getURL());
+	}
+	
+	public function test_getPath_URIEmpty_ReturnEmptyString()
+	{
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('', $subject->getPath());
+	}
+	
+	public function test_getPath_URIWithoutQuery_ReturnURI()
+	{
+		$_SERVER['REQUEST_URI'] = '/test';
+		
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('/test', $subject->getPath());
+	}
+	
+	public function test_getPath_URIWithoutHashtagWithQuery_ReturnURI()
+	{
+		$_SERVER['REQUEST_URI'] = '/test?var=1';
+		
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('/test', $subject->getPath());
+	}
+	
+	public function test_getPath_URIWithHashtag_ReturnURI()
+	{
+		$_SERVER['REQUEST_URI'] = '/test#page';
+		
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('/test', $subject->getPath());
+	}
+	
+	public function test_getPath_URIWithQueryAndHashtag_ReturnURI()
+	{
+		$_SERVER['REQUEST_URI'] = '/test?var=1#page';
+		
+		$subject = new StandardWebRequest();
+		
+		self::assertEquals('/test', $subject->getPath());
+	}
+	
+	public function test_getJson_JsonValid_ReturnArray()
+	{
+		$subject = resetInstanceDataMember(StandardWebRequest::class, 'body', '{"test":1}');
+		
+		self::assertEquals(['test' => 1], $subject->getJson());
+	}
+
+	/**
+	 * @expectedException \WebCore\Exception\WebCoreFatalException
+	 */
+	public function test_getJson_JsonNotValid_ExceptionThrown()
+	{
+		$subject = resetInstanceDataMember(StandardWebRequest::class, 'body', '{"test":1');
+		
+		$subject->getJson();
+	}
+	
+	public function test_current_ReturnStandardWebRequest()
+	{
+		self::assertInstanceOf(StandardWebRequest::class, StandardWebRequest::current());
+	}
+	
+	public function test_requestParams_sanity()
+	{
+		$subject = new StandardWebRequest();
+		$_GET = ['test' => '1'];
+		
+		self::assertEquals('1', $subject->getRequestParams()->string('test', 5));
+		self::assertEquals(['test' => '1'], $subject->getRequestParamsArray());
+		self::assertTrue($subject->hasRequestParam('test'));
+		self::assertFalse($subject->hasRequestParam('test2'));
+		self::assertEquals('1', $subject->getRequestParam('test', 5));
+	}
+	
+	public function test_routeParams_sanity()
+	{
+		$subject = new StandardWebRequest();
+		
+		$subject->setRouteParams(['test' => '1']);
+		
+		self::assertEquals('1', $subject->getRouteParams()->string('test', 5));
+		self::assertEquals(['test' => '1'], $subject->getRouteParamsArray());
+		self::assertTrue($subject->hasRouteParam('test'));
+		self::assertFalse($subject->hasRouteParam('test2'));
+		self::assertEquals('1', $subject->getRouteParam('test', 5));
 	}
 }

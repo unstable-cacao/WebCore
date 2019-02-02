@@ -11,3 +11,21 @@ function resetStaticDataMember(string $className, string $memberName)
 	$property->setAccessible(true);
 	$property->setValue($reflectionClass, null);
 }
+
+/**
+ * @param string $className
+ * @param string $memberName
+ * @param mixed $value
+ * @return mixed $classInstance
+ */
+function resetInstanceDataMember(string $className, string $memberName, $value)
+{
+	$reflectionClass = new ReflectionClass($className);
+	$instance = $reflectionClass->newInstance();
+	
+	$property = $reflectionClass->getProperty($memberName);
+	$property->setAccessible(true);
+	$property->setValue($instance, $value);
+	
+	return $instance;
+}
