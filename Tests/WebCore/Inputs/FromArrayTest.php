@@ -55,7 +55,25 @@ class FromArrayTest extends TestCase
 		$subject->between(5, 2);
 	}
 	
-	public function test_between_InvalidParam_AppliedOnlyOnce()
+	/**
+	 * @expectedException \WebCore\Exception\ServerErrorException
+	 */
+	public function test_between_InvalidParamA_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		$subject->between('test4', 2);
+	}
+	
+	/**
+	 * @expectedException \WebCore\Exception\ServerErrorException
+	 */
+	public function test_between_InvalidParamB_ExceptionThrown()
+	{
+		$subject = new FromArray([]);
+		$subject->between(5, 'test5');
+	}
+	
+	public function test_between_AppliedOnlyOnce()
 	{
 		$subject = new FromArray(['a' => 8, 'b' => 25]);
 		

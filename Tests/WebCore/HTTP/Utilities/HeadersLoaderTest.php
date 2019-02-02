@@ -54,6 +54,17 @@ class HeadersLoaderTest extends TestCase
 		self::assertEquals([], HeadersLoader::getAllHeaders());
 	}
 	
+	public function test_getAllHeaders_CaseInsensitive_ReturnAllInLowerCase()
+	{
+		$_SERVER['HTTP_HEADER_A'] = 'test';
+		$_SERVER['HTTP_HEADER_B'] = 555;
+		
+		self::assertEquals([
+			'header_a' => 'test',
+			'header_b' => 555
+		], HeadersLoader::getAllHeaders());
+	}
+	
 	
 	public static function tearDownAfterClass()
 	{
