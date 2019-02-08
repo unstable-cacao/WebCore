@@ -29,7 +29,12 @@ class HeadersLoader
 		if (function_exists('apache_request_headers'))
 		{
 			self::$exactHeaders = apache_request_headers();
+			self::$lowerCaseHeaders = [];
 			
+			foreach (self::$exactHeaders as $key => $value)
+			{
+				self::$lowerCaseHeaders[strtolower($key)] = $value;
+			}
 		}
 		else if (isset($_SERVER))
 		{
