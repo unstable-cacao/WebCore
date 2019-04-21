@@ -38,7 +38,7 @@ trait TOptional
 	 */
 	public function optional(bool $isOptional = true): IOptional
 	{
-		$this->_isOptional = !$isOptional;
+		$this->_isOptional = $isOptional;
 		return $this;
 	}
 	
