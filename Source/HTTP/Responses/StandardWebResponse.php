@@ -49,7 +49,17 @@ class StandardWebResponse implements IWebResponse
 	
 	public function setHeaders(array $headers): void
 	{
-		$this->headers = $headers;
+		$this->headers = [];
+		
+		foreach ($headers as $key => $values)
+		{
+			if (!is_array($values))
+			{
+				$values = [$values];
+			}
+			
+			$this->headers[$key] = $values;
+		}
 	}
 	
 	public function addHeaders(array $headers): void
