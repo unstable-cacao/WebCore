@@ -444,6 +444,14 @@ class StandardWebRequestTest extends TestCase
 		self::assertEquals('http://test.com', $subject->getURL());
 	}
 	
+	public function test_getURLObject_URLObjectReturned()
+	{
+		$subject = new StandardWebRequest();
+		$_SERVER['HTTP_HOST'] = 'test.com';
+		
+		self::assertEquals('http://test.com', $subject->getURLObject()->url());
+	}
+	
 	public function test_getPath_URIEmpty_ReturnEmptyString()
 	{
 		$subject = new StandardWebRequest();

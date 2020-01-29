@@ -2,6 +2,7 @@
 namespace WebCore;
 
 
+use Structura\URL;
 use WebCore\Base\HTTP\IRequestFiles;
 
 
@@ -22,6 +23,8 @@ interface IWebRequest
 	public function getURI(): string;
 	public function getURL(): string;
 	public function getPath(): string;
+	
+	public function getURLObject(): URL;
 	
 	
 	public function getUserAgent(?string $default = null): ?string;

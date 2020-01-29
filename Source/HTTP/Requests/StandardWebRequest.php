@@ -10,6 +10,8 @@ use WebCore\Base\HTTP\IRequestFiles;
 use WebCore\Inputs\FromArray;
 use WebCore\Exception\WebCoreFatalException;
 
+use Structura\URL;
+
 
 class StandardWebRequest implements IWebRequest
 {
@@ -290,6 +292,11 @@ class StandardWebRequest implements IWebRequest
 	public function getPath(): string
 	{
 		return explode('?', explode('#', $this->getURI(), 2)[0], 2)[0];
+	}
+	
+	public function getURLObject(): URL
+	{
+		return new URL($this->getURL());
 	}
 	
 	
