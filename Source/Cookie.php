@@ -200,18 +200,21 @@ class Cookie extends LiteObject
 	
 	public static function delete(
 		string $name,
-		string $path = '/'
+		string $path = '/',
+		string $sameSite = SameSite::LAX
 	): Cookie
 	{
-		return Cookie::create($name, null, '-1 day', $path);
+		$secured = ($sameSite == SameSite::NONE) ? true : false;
+		return Cookie::create($name, null, '-1 day', $path, null, $secured, false, $sameSite);
 	}
 	
 	public static function applyDelete(
 		string $name,
-		string $path = '/'
+		string $path = '/',
+		string $sameSite = SameSite::LAX
 	): Cookie
 	{
-		$cookie = self::delete($name, $path);
+		$cookie = self::delete($name, $path, $sameSite);
 		$cookie->apply();
 		return $cookie;
 	}
