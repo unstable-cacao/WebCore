@@ -13,6 +13,9 @@ use WebCore\Exception\WebCoreFatalException;
 use Structura\URL;
 
 
+/**
+ * @deprecated Use \WebCore\WebRequest 
+ */
 class StandardWebRequest implements IWebRequest
 {
 	private static $current = null;
@@ -317,7 +320,7 @@ class StandardWebRequest implements IWebRequest
 		if (is_null($this->body)) 
 		{
 			if (!defined('STDIN'))
-				$source = fopen('php://stdin', 'r');
+				$source = fopen('php://input', 'r');
 			else
 				$source = STDIN;
 			
