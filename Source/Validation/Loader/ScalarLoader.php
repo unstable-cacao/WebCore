@@ -12,12 +12,19 @@ class ScalarLoader
 	private $request;
 	
 	
+	private function getParameterName(\ReflectionParameter $p): string
+	{
+		/** @noinspection PhpPossiblePolymorphicInvocationInspection */
+		return $p->getType()->getName();
+	}
+	
+	
 	private function strict(\ReflectionParameter $p)
 	{
 		$name = $p->getName();
 		$params = $this->request->getParams();
 		
-		switch ($p->getType())
+		switch ($this->getParameterName($p))
 		{
 			case 'int':
 				return $params->requireInt($name);
@@ -41,7 +48,7 @@ class ScalarLoader
 		$default = $p->getDefaultValue();
 		$params = $this->request->getParams();
 		
-		switch ($p->getType())
+		switch ($this->getParameterName($p))
 		{
 			case 'int':
 				return $params->int($name, $default);
@@ -70,7 +77,7 @@ class ScalarLoader
 	{
 		$isFound = false;
 		
-		if ($p->getClass() || !$p->getType())
+		if ($p->getClass() || !$this->getParameterName($p))
 			return null;
 		
 		$isFound = true;
