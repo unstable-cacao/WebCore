@@ -3,6 +3,7 @@ namespace WebCore\HTTP\Requests;
 
 
 use PHPUnit\Framework\TestCase;
+
 use WebCore\HTTP\Utilities\HeadersLoader;
 use WebCore\HTTP\Utilities\IsHTTPSValidator;
 use WebCore\IInput;
@@ -11,7 +12,10 @@ use WebCore\Method;
 
 class StandardWebRequestTest extends TestCase
 {
-	protected function setUp()
+	private static array $server = [];
+	
+	
+	protected function setUp(): void
 	{
 		$_SERVER = [];
 		$_GET = [];
@@ -501,12 +505,11 @@ class StandardWebRequestTest extends TestCase
 		
 		self::assertEquals(['test' => 1], $subject->getJson());
 	}
-
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
+	
 	public function test_getJson_JsonNotValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = resetInstanceDataMember(StandardWebRequest::class, 'body', '{"test":1');
 		
 		$subject->getJson();
@@ -540,5 +543,16 @@ class StandardWebRequestTest extends TestCase
 		self::assertTrue($subject->hasRouteParam('test'));
 		self::assertFalse($subject->hasRouteParam('test2'));
 		self::assertEquals('1', $subject->getRouteParam('test', 5));
+	}
+	
+	
+	public static function setUpBeforeClass(): void
+	{
+		self::$server = $_SERVER;
+	}
+	
+	public static function tearDownAfterClass(): void
+	{
+		$_SERVER = self::$server;
 	}
 }

@@ -7,7 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class HeadersLoaderTest extends TestCase
 {
-	protected function setUp()
+	private static array $server = [];
+	
+	
+	protected function setUp(): void
 	{
 		$_SERVER = [];
 		
@@ -66,8 +69,13 @@ class HeadersLoaderTest extends TestCase
 	}
 	
 	
-	public static function tearDownAfterClass()
+	public static function setUpBeforeClass(): void
 	{
-		$_SERVER = [];
+		self::$server = $_SERVER;
+	}
+	
+	public static function tearDownAfterClass(): void
+	{
+		$_SERVER = self::$server;
 	}
 }

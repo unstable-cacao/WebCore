@@ -8,11 +8,10 @@ use Traitor\TEnum;
 
 class FromArrayTest extends TestCase
 {
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_withLength_InvalidParams_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->withLength(5, 2);
 	}
@@ -27,11 +26,10 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->string('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_withExactLength_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->withExactLength(-8);
 	}
@@ -46,29 +44,26 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->string('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_between_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->between(5, 2);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_between_InvalidParamA_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->between('test4', 2);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_between_InvalidParamB_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->between(5, 'test5');
 	}
@@ -83,11 +78,10 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->int('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_greaterThen_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->greaterThen('fd8');
 	}
@@ -102,11 +96,10 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->int('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_lessThen_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->lessThen('fd8');
 	}
@@ -121,11 +114,10 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->int('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_greaterOrEqualThen_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->greaterOrEqualThen('fd8');
 	}
@@ -140,11 +132,10 @@ class FromArrayTest extends TestCase
 		self::assertNotNull($subject->int('b'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\ServerErrorException
-	 */
 	public function test_lessOrEqualThen_InvalidParam_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\ServerErrorException::class);
+		
 		$subject = new FromArray([]);
 		$subject->lessOrEqualThen('fd8');
 	}
@@ -459,12 +450,11 @@ class FromArrayTest extends TestCase
 		
 		self::assertEquals('a', $subject->regex('a', '/a/', 'a'));
 	}
-
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
+	
 	public function test_regex_RegexNotValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->regex('a', '[', 'a');
@@ -490,32 +480,29 @@ class FromArrayTest extends TestCase
 		
 		self::assertEquals('a', $subject->enum('a', ['c'], 'a'));
 	}
-
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
+	
 	public function test_enum_ValuesNotStringOrArray_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->enum('a', 1.1, 'a');
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_enum_ValuesNotClass_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->enum('a', 'SomeString', 'a');
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_enum_ValuesNotTEnum_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->enum('a', FromArrayTestHelper_A::class, 'a');
@@ -535,22 +522,20 @@ class FromArrayTest extends TestCase
 		self::assertEquals('a', $subject->enum('a', FromArrayTestHelper_B::class, 'a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireInt_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->requireInt('a');
 	}
-    
-    /**
-     * @expectedException \Exception
-     */
-    public function test_requireInt_ValueNotInt_ExceptionThrown()
+	
+	public function test_requireInt_ValueNotInt_ExceptionThrown()
     {
-        $subject = new FromArray(['a' => 'test']);
+		$this->expectException(\Exception::class);
+		
+		$subject = new FromArray(['a' => 'test']);
         
         $subject->requireInt('a');
     }
@@ -562,11 +547,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(2, $subject->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_WithBetween_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8]);
 		
 		$subject->between(10, 10)->requireInt('a');
@@ -579,11 +563,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8, $subject->between(2, 8)->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_WithGreaterThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8]);
 		
 		$subject->greaterThen(8)->requireInt('a');
@@ -596,11 +579,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8, $subject->greaterThen(5)->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_WithLessThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8]);
 		
 		$subject->lessThen(2)->requireInt('a');
@@ -613,11 +595,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8, $subject->lessThen(10)->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_WithGreaterOrEqualThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8]);
 		
 		$subject->greaterOrEqualThen(10)->requireInt('a');
@@ -630,11 +611,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8, $subject->greaterOrEqualThen(2)->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_WithLessOrEqualThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8]);
 		
 		$subject->lessOrEqualThen(2)->requireInt('a');
@@ -647,22 +627,20 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8, $subject->lessOrEqualThen(10)->requireInt('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireBool_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->requireBool('a');
 	}
 	
-    /**
-     * @expectedException \Exception
-     */
-    public function test_requireBool_ValueNotBool_ExceptionThrown()
+	public function test_requireBool_ValueNotBool_ExceptionThrown()
     {
-        $subject = new FromArray(['a' => []]);
+		$this->expectException(\Exception::class);
+		
+		$subject = new FromArray(['a' => []]);
         
         $subject->requireBool('a');
     }
@@ -674,22 +652,20 @@ class FromArrayTest extends TestCase
 		self::assertTrue($subject->requireBool('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireFloat_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->requireFloat('a');
 	}
-    
-    /**
-     * @expectedException \Exception
-     */
-    public function test_requireFloat_ValueNotFloat_ExceptionThrown()
+	
+	public function test_requireFloat_ValueNotFloat_ExceptionThrown()
     {
-        $subject = new FromArray(['a' => '2.a']);
+		$this->expectException(\Exception::class);
+		
+		$subject = new FromArray(['a' => '2.a']);
         
         $subject->requireFloat('a');
     }
@@ -701,11 +677,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(3.2, $subject->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_WithBetween_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8.5]);
 		
 		$subject->between(10.1, 10.11)->requireFloat('a');
@@ -718,11 +693,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8.5, $subject->between(2, 8.5)->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_WithGreaterThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8.5]);
 		
 		$subject->greaterThen(8.5)->requireFloat('a');
@@ -735,11 +709,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8.5, $subject->greaterThen(5.7)->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_WithLessThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8.5]);
 		
 		$subject->lessThen(2.4)->requireFloat('a');
@@ -752,11 +725,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8.5, $subject->lessThen(10.2)->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_WithGreaterOrEqualThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8.5]);
 		
 		$subject->greaterOrEqualThen(10.44)->requireFloat('a');
@@ -769,11 +741,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8.5, $subject->greaterOrEqualThen(2.33)->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_WithLessOrEqualThen_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 8.5]);
 		
 		$subject->lessOrEqualThen(2.4)->requireFloat('a');
@@ -786,22 +757,20 @@ class FromArrayTest extends TestCase
 		self::assertEquals(8.5, $subject->lessOrEqualThen(10.4)->requireFloat('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_require_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->require('a');
 	}
-    
-    /**
-     * @expectedException \Exception
-     */
-    public function test_require_NotString_ExceptionThrown()
+	
+	public function test_require_NotString_ExceptionThrown()
     {
-        $subject = new FromArray(['a' => []]);
+		$this->expectException(\Exception::class);
+		
+		$subject = new FromArray(['a' => []]);
         
         $subject->require('a');
     }
@@ -813,11 +782,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals('b', $subject->require('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_require_WithWithLength_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 'test']);
 		
 		$subject->withLength(0)->require('a');
@@ -830,11 +798,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals('test', $subject->withLength(4)->require('a'));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_require_WithWithExactLength_Fail()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new FromArray(['a' => 'test']);
 		
 		$subject->withExactLength(0)->require('a');
@@ -847,11 +814,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals('test', $subject->withExactLength(4)->require('a'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireRegex_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->requireRegex('a', '/./');
@@ -864,31 +830,28 @@ class FromArrayTest extends TestCase
 		self::assertEquals('b', $subject->requireRegex('a', '/b/'));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireRegex_ExistsAndNotValid_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireRegex('a', '/a/');
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireRegex_RegexNotValid_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireRegex('a', '[');
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireEnum_NotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray([]);
 		
 		$subject->requireEnum('a', []);
@@ -901,41 +864,37 @@ class FromArrayTest extends TestCase
 		self::assertEquals('b', $subject->requireEnum('a', ['b']));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireEnum_ValuesArrayAndNotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireEnum('a', ['c']);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_requireEnum_ValuesNotStringOrArray_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireEnum('a', 1.1);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_requireEnum_ValuesNotClass_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireEnum('a', 'SomeString');
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_requireEnum_ValuesNotTEnum_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new FromArray(['a' => 'b']);
 		
 		$subject->requireEnum('a', FromArrayTestHelper_A::class);
@@ -948,11 +907,10 @@ class FromArrayTest extends TestCase
 		self::assertEquals('b', $subject->requireEnum('a', FromArrayTestHelper_B::class));
 	}
 	
-	/**
-	 * @expectedException \Exception
-	 */
 	public function test_requireEnum_ValuesTEnumAndNotExists_ExceptionThrown()
 	{
+		$this->expectException(\Exception::class);
+		
 		$subject = new FromArray(['a' => 'c']);
 		
 		$subject->requireEnum('a', FromArrayTestHelper_B::class);

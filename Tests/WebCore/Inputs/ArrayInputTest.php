@@ -8,11 +8,10 @@ use Traitor\TEnum;
 
 class ArrayInputTest extends TestCase
 {
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_NotValidSource_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new ArrayInput('');
 	}
 	
@@ -163,11 +162,10 @@ class ArrayInputTest extends TestCase
 		self::assertEquals(['a'], $subject->getEnum(ArrayInputTestHelper_B::class, ['a']));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_getEnum_EnumValuesNotValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new ArrayInput(['b', 'c']);
 		
 		$subject->getEnum(ArrayInputTestHelper_A::class, ['a']);
@@ -299,21 +297,19 @@ class ArrayInputTest extends TestCase
 		self::assertEquals(['b'], $subject->filterEnum(ArrayInputTestHelper_B::class, ['a']));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_filterEnum_EnumValuesNotValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new ArrayInput(['b', 'c']);
 		
 		$subject->filterEnum(ArrayInputTestHelper_A::class, ['a']);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_require_Null_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(null);
 		
 		$subject->require();
@@ -333,11 +329,10 @@ class ArrayInputTest extends TestCase
 		self::assertEquals([2, 3], $subject->require());
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_Null_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(null);
 		
 		$subject->requireInt();
@@ -357,21 +352,19 @@ class ArrayInputTest extends TestCase
 		self::assertEquals([1, 2], $subject->requireInt());
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireInt_NotAllValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['1', 'test']);
 		
 		$subject->requireInt();
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_Null_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(null);
 		
 		$subject->requireFloat();
@@ -391,21 +384,19 @@ class ArrayInputTest extends TestCase
 		self::assertEquals([1.1, 2.2], $subject->requireFloat());
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireFloat_NotAllValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['1.1', 'test']);
 		
 		$subject->requireFloat();
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireBool_Null_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(null);
 		
 		$subject->requireBool();
@@ -425,21 +416,19 @@ class ArrayInputTest extends TestCase
 		self::assertEquals([true, false], $subject->requireBool());
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireBool_NotAllValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['1', [1]]);
 		
 		$subject->requireBool();
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireEnum_Null_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(null);
 		
 		$subject->requireEnum(['a', 'b']);
@@ -459,11 +448,10 @@ class ArrayInputTest extends TestCase
 		self::assertEquals(['a', 'b'], $subject->requireEnum(['a', 'b']));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireEnum_NotAllValidEnumArray_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['a', 'c']);
 		
 		$subject->requireEnum(['a', 'b']);
@@ -476,31 +464,28 @@ class ArrayInputTest extends TestCase
 		self::assertEquals(['b'], $subject->requireEnum(ArrayInputTestHelper_B::class));
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireEnum_NotAllValidTEnum_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['b', 'c']);
 		
 		$subject->requireEnum([ArrayInputTestHelper_B::class]);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\WebCoreFatalException
-	 */
 	public function test_requireEnum_EnumValuesNotValid_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\WebCoreFatalException::class);
+		
 		$subject = new ArrayInput(['b', 'c']);
 		
 		$subject->requireEnum(ArrayInputTestHelper_A::class);
 	}
 	
-	/**
-	 * @expectedException \WebCore\Exception\BadRequestException
-	 */
 	public function test_requireEnum_EnumValueNotExist_ExceptionThrown()
 	{
+		$this->expectException(\WebCore\Exception\BadRequestException::class);
+		
 		$subject = new ArrayInput(['c']);
 		
 		$subject->requireEnum(ArrayInputTestHelper_B::class);
